@@ -1,12 +1,15 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+  import { NavigationContainer } from '@react-navigation/native'
+import AuthNavigators from './src/Navigations/AuthNavigators/AuthNavigators'
 
 const App = () => {
   return (
-    <View>
-      <Text>Movie App</Text>  
-    </View>
-  )
+    <>
+      <NavigationContainer>
+        <AuthNavigators/>
+      </NavigationContainer>
+    </>
+  )       
 }
 
 export default App
