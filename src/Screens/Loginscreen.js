@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Loginscreen = () => {
     const navigation = useNavigation()
@@ -18,7 +19,7 @@ const Loginscreen = () => {
     }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ImageBackground
         style={styles.image}
         resizeMethod="cover"
@@ -51,7 +52,7 @@ const Loginscreen = () => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 };
 

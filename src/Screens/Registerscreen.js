@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -8,44 +8,76 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch, useSelector} from 'react-redux';
+import {UiActions} from '../Store/Features/Ui-slice/ui-slice';
+import { AuthActions } from '../Store/Features/Auth-slice/auth-slice';
 
 const Registerscreen = () => {
-  const navigation = useNavigation()
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
+  const navigation = useNavigation();
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const errorMessage = useSelector(state => state.ui.validText);
+  const dispatch = useDispatch();
 
-  const swithchHandleTosignIn = ()=>{
-    navigation.navigate('Login')
-  }
+  console.log(errorMessage);
 
-  const RegisterHandler =()=>{
+  const swithchHandleTosignIn = () => {
+    navigation.navigate('Login');
+  };
+
+  const RegisterHandler = () => {
+    const userRegister = {
+      id: Math.random().toString(),
+      username,
+      email,
+      password,
+      confirmPassword,
+      phoneNumber,
+    };
+
+    if (
+      username == '' ||
+      email == '' ||
+      password == '' ||
+      confirmPassword == '' ||
+      phoneNumber == ''
+    ) {
+      dispatch(UiActions.isErrorMessage('All Fields are required !'));
+    } else if (password !== confirmPassword) {
+      dispatch(UiActions.isErrorMessage('do not match password'));
+    } else {  
+      dispatch(AuthActions.RegisterUser(userRegister))
+      console.log(userRegister)
+      dispatch(UiActions.isErrorMessage(''));
+      navigation.push('Login');
+    }
     
-    const userRegister ={
-        id:Math.random().toString(),
-        username,
-        email,
-        password,
-        confirmPassword,
-        phoneNumber
-    }
-    console.log(userRegister, navigation)
-    navigation.push('Login') 
-    }
+
+
+
+    console.log(userRegister, navigation);
+  };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ImageBackground
         style={styles.image}
         resizeMethod="cover"
         source={require('../assets/movietitleicon.png')}>
         <Text style={styles.title}>Signup</Text>
+        <Text style={`!errorMessage ?  ${styles.alertText} : ''`}>{errorMessage}</Text>
 
         <View style={styles.inputele}>
           <Text style={styles.label}>Username</Text>
-          <TextInput placeholder="Enter the Username" onChangeText={setUsername} style={styles.input} />
+          <TextInput
+            placeholder="Enter the Username"
+            onChangeText={setUsername}
+            style={styles.input}
+          />
         </View>
         <View style={styles.inputele}>
           <Text style={styles.label}>Email</Text>
@@ -72,16 +104,19 @@ const Registerscreen = () => {
           <TextInput
             placeholder="Confirm password"
             secureTextEntry={true}
+            returnKeyType={'next'}
+            autoFocus={!errorMessage}
             inputMode="password"
             onChangeText={setConfirmPassword}
             style={styles.input}
           />
+          <Text style={`!errorMessage ?  ${styles.alertText} : ''`}>{errorMessage}</Text>
         </View>
         <View style={styles.inputele}>
           <Text style={styles.label}>Mobile Number</Text>
           <TextInput
             placeholder="Phone number"
-            inputMode='number'
+            inputMode="number"
             keyboardType="number-pad"
             onChangeText={setPhoneNumber}
             style={styles.input}
@@ -94,7 +129,7 @@ const Registerscreen = () => {
           <Text style={styles.buttonText}>Singup</Text>
         </TouchableOpacity>
       </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -160,6 +195,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#007bff',
     fontWeight: 'bold',
+  },
+  alertText: {
+    fontSize: 15,
+    color: '#fc2525',
+    backgroundColor: 'white',
   },
 });
 
