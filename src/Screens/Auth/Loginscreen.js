@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -9,13 +9,48 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getUserData } from '../../Store/Features/Auth-slice/auth-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { UiActions } from '../../Store/Features/Ui-slice/ui-slice';
 
 const Loginscreen = () => {
     const navigation = useNavigation()
+    const [email, setEmail] = useState('')
+    const [password, setPassword]= useState('')
+    const logedInUser = useSelector(state => state.auth.RegisterUser)
+    const errorMessage = useSelector(state => state.ui.validText)
+    const dispatch = useDispatch()
+
+    console.log(logedInUser)
 
     const switchSingupHanlder =()=>{
         navigation.navigate('Signup')   
         console.log(navigation) 
+    }
+
+    useEffect(()=>{
+        getUserData()
+        console.log('Logedin')
+    },[])
+
+    const SingInHandler =()=>{
+        const loginUser = {
+            email,
+            password,
+        }
+        
+
+        if(logedInUser.email === logedInUser.email){
+            dispatch(UiActions.isErrorMessage('Login Succesfull '))
+            navigation.navigate('Tabnav')
+            
+        }else{
+            dispatch(UiActions.isErrorMessage('user is not found'))
+        }
+        console.log(loginUser)
+
+
+
     }
 
   return (
@@ -23,8 +58,9 @@ const Loginscreen = () => {
       <ImageBackground
         style={styles.image}
         resizeMethod="cover"
-        source={require('../assets/movietitleicon.png')}>
+        source={require('../../assets/movietitleicon.png')}>
         <Text style={styles.title}>Login</Text>
+        <Text style={`!errorMessage ?  ${styles.alertText} : ''`}>{errorMessage}</Text>
 
         <View style={styles.inputele}>
           <Text style={styles.label}>Email</Text>
@@ -32,6 +68,7 @@ const Loginscreen = () => {
             inputMode="email"
             placeholder="Enter Email"
             keyboardType="email-address"
+            onChangeText={setEmail}
             style={styles.input}
           />
         </View>
@@ -41,14 +78,15 @@ const Loginscreen = () => {
             placeholder="Enter Password"
             secureTextEntry={true}
             inputMode="password-new"
+            onChangeText={setPassword}
             style={styles.input}
           />
         </View>
        
-        <TouchableOpacity onPress={switchSingupHanlder  }>
+        <TouchableOpacity onPress={switchSingupHanlder}>
           <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={SingInHandler}>
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </ImageBackground>
@@ -118,6 +156,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#007bff',
     fontWeight: 'bold',
+  },
+  alertText: {
+    fontSize: 15,
+    color: '#fc2525',
+    backgroundColor: 'white',
   },
 });
 

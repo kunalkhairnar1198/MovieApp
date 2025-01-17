@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
-import {UiActions} from '../Store/Features/Ui-slice/ui-slice';
-import { AuthActions } from '../Store/Features/Auth-slice/auth-slice';
+import {UiActions} from '../../Store/Features/Ui-slice/ui-slice';
+import { getUserData, registerUser } from '../../Store/Features/Auth-slice/auth-slice';
 
 const Registerscreen = () => {
   const navigation = useNavigation();
@@ -21,22 +21,29 @@ const Registerscreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const errorMessage = useSelector(state => state.ui.validText);
+  const registredUsers = useSelector(state => state.auth.RegisterUser)
   const dispatch = useDispatch();
 
-  console.log(errorMessage);
+  console.log(registerUser);
+
+  useEffect(()=>{
+    dispatch(getUserData())
+    // dispatch(clearData())
+},[])
 
   const swithchHandleTosignIn = () => {
-    navigation.navigate('Login');
+    navigation.navigate('Login'); 
   };
 
   const RegisterHandler = () => {
-    const userRegister = {
+    const userRegisterData = {
       id: Math.random().toString(),
       username,
       email,
       password,
       confirmPassword,
       phoneNumber,
+      time:Date()
     };
 
     if (
@@ -50,8 +57,8 @@ const Registerscreen = () => {
     } else if (password !== confirmPassword) {
       dispatch(UiActions.isErrorMessage('do not match password'));
     } else {  
-      dispatch(AuthActions.RegisterUser(userRegister))
-      console.log(userRegister)
+      dispatch(registerUser(userRegisterData))
+      console.log(userRegisterData) 
       dispatch(UiActions.isErrorMessage(''));
       navigation.push('Login');
     }
@@ -59,15 +66,17 @@ const Registerscreen = () => {
 
 
 
-    console.log(userRegister, navigation);
+    console.log(userRegisterData);
   };
+
+ 
 
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
         style={styles.image}
         resizeMethod="cover"
-        source={require('../assets/movietitleicon.png')}>
+        source={require('../../assets//movietitleicon.png')}>
         <Text style={styles.title}>Signup</Text>
         <Text style={`!errorMessage ?  ${styles.alertText} : ''`}>{errorMessage}</Text>
 
