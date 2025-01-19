@@ -1,156 +1,148 @@
-import React, { useState } from 'react'
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import Card from '../../UI/Card'
+import React, {useEffect, useState} from 'react';
+import {
+  Dimensions,
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  fetchTrendingMovies,
+  image500,
+} from '../../../Store/Features/Actions/movies-actions';
 
 const TrendingMovies = () => {
-    const [slideIndex, setSlideIndex] = useState(0)
-    const movies = [
-      {
-        name: 'Inception',
-        description: 'A thief with the ability to enter people’s dreams takes on the ultimate heist.',
-        rating: '8.8',
-        timing: '2h 28m',
-      },
-      {
-        name: 'The Dark Knight',
-        description: 'Batman raises the stakes in his war on crime with the help of Lt. Gordon and Harvey Dent.',
-        rating: '9.0',
-        timing: '2h 32m',
-      },
-      {
-        name: 'Interstellar',
-        description: 'A team of explorers travels through a wormhole in space to save humanity.',
-        rating: '8.6',
-        timing: '2h 49m',
-      },
-    ];
+  const dispatch = useDispatch();
+  const [visibleMovies, setVisibleMovies] = useState([]);
+  const [Refreshing, setRefreshing] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const {trendingMovies, loading, error} = useSelector(state => state.movies);
 
+  useEffect(() => {
+    dispatch(fetchTrendingMovies());
+  }, [dispatch]);
 
-    const nextSlide = (n) => {
-      let newIndex = slideIndex + n;
-      if (newIndex >= movies.length) newIndex = 0;
-      if (newIndex < 0) newIndex = movies.length - 1;
-      setSlideIndex(newIndex);
-    };
-
-
-    const setCurrentSlide = (index) => {
-      setSlideIndex(index);
-    };
+  const {width, height} = Dimensions.get('window');
   
+  const renderMovieCard = ({item}) => (
+    <View
+      style={[
+        styles.cardContainer,
+        {width: width * 0.8, height: height * 0.4},
+      ]}>
+      <ImageBackground
+        source={{uri: image500(item.poster_path)}}
+        style={styles.imageBackground}
+        imageStyle={styles.imageStyle}
+        >
+        <View style={styles.overlay} />
+        <View style={styles.textContainer}>
+          <Text style={styles.movieTitle}>{item.title}</Text>
+          <Text style={styles.movieDescription} numberOfLines={3}>
+            {item.overview}
+          </Text>
+          <View style={styles.bottomSection}>
+            <Text style={styles.movieRating}>
+              IMDb: {item.vote_average.toFixed(1)}
+            </Text>
+            <Text style={styles.movieTiming}>{'2h 30m'}</Text>
+          </View>
+        </View>
+      </ImageBackground>
+    </View>
+  );
+
+  const onTrendingMoviesRefresh =()=>{
+    setRefreshing(true)
+    fetchTrendingMovies(trendingMovies.page + 1)
+
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 3000);
+  }
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (error) {
+    return <Text>Error fetching movies: {error}</Text>;
+  }
 
   return (
-    <View style={styles.slides}>
-      <Card>
-      <Text style={styles.moviesname}>{movies[slideIndex].name}</Text>
-      <Text style={styles.moviesdescription}>{movies[slideIndex].description}</Text>
-
-
-      <View style={styles.bottomSection}>
-            <Text style={styles.movieRating}>IMDb: {movies[slideIndex].rating}</Text>
-            <Text style={styles.movieTiming}>{movies[slideIndex].timing}</Text>
-      </View>
-      </Card>
-
-      <View style={styles.indicators}>
-          <TouchableOpacity style={styles.navButton} onPress={() => nextSlide(-1)}>
-            <Text style={styles.navText}>&#10094;</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.navButton} onPress={() => nextSlide(1)}>
-            <Text style={styles.navText}>&#10095;</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.dotsContainer}>
-          {movies.map((_, index) => (
-            <TouchableOpacity
-              key={index}
-              style={[
-                styles.dot,
-                slideIndex === index && styles.activeDot,
-              ]}
-              onPress={() => setCurrentSlide(index)}
-            />
-          ))}
-        </View>
+    <View style={styles.container}>
+      <FlatList
+        data={trendingMovies}
+        keyExtractor={item => item.id.toString()}
+        renderItem={renderMovieCard}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.flatListContent}
+        refreshing={Refreshing} onRefresh={onTrendingMoviesRefresh}  colors={['#d41616']}
+      />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-
-  slides:{
-  width:'100%',
-  height:250,
-  position:'relative'
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    // backgroundColor: '#fff',
+    // paddingVertical: 20,
   },
-  moviesname:{
-    fontSize:10,
-    fontWeight:'bold',
-    marginBottom:10,
-    color:'#333'
+  flatListContent: {
+    paddingHorizontal: 10,
   },
-  moviesdescription:{
-    fontSize: 16,
-    textAlign: 'center',
-    color: '#555',
-    marginBottom: 20,
+  cardContainer: {
+    marginHorizontal: 10,
+    borderRadius: 15,
+    overflow: 'hidden',
   },
-  bottomSection:{
-    position:'absolute',
-    bottom:15,
-    width:'100%',
-    flexDirection:'row',
-    justifyContent:'space-between',
-    paddingHorizontal:20
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    padding: 15,
   },
-  movieRating:{
-    fontSize:16,
-    fontWeight:'bold',
-    color:"#333"
+  imageStyle: {
+    borderRadius: 15,
   },
-  movieTiming:{
-    fontSize:15,
-    color:'#555'
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   },
-  indicators:{
-    position:'absolute',
-    top:'50%',
-    left:0,
-    right:0,
-    flexDirection:'row',
-    justifyContent:'space-between',
-    paddingHorizontal:10
+  textContainer: {
+    padding: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    borderRadius: 10,
   },
-  navButton:{
-    backgroundColor:'transparent',
-    borderRadius:50,
-    padding:10
+  movieTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 5,
   },
-  navText:{
-    color:'#fff',
-    fontSize:18,
-    fontWeight:'bold'
+  movieDescription: {
+    fontSize: 14,
+    color: '#ddd',
+    marginBottom: 10,
   },
-  dotsContainer: {
+  bottomSection: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    position: 'absolute',
-    bottom: 25,
-    width: '100%',
+    justifyContent: 'space-between',
   },
-  dot: {
-    height: 10,
-    width: 10,
-    borderRadius: 5,
-    backgroundColor: '#ccc',
-    marginHorizontal: 5,
+  movieRating: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#ffd700',
   },
-  activeDot: {
-    backgroundColor: '#333',
+  movieTiming: {
+    fontSize: 14,
+    color: '#fff',
   },
+});
 
-
-})
-
-export default TrendingMovies
+export default TrendingMovies;

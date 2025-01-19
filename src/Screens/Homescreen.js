@@ -28,10 +28,7 @@ const Homescreen = () => {
       <View style={styles.titleContent}>
          <Text style={styles.title}>WatchList</Text>
          <View>
-          <Card>
         <WatchList/>
-
-          </Card>
       </View>
       </View>
      
@@ -39,18 +36,14 @@ const Homescreen = () => {
       <View style={styles.titleContent}>
       <Text style={styles.title}>Favorite</Text>
       <View>
-        <Card>
         <FavoriteList/>
-        </Card>
       </View>
       </View>
       
       <View style={styles.titleContent}>
-      <Text style={styles.title}>AllMovies</Text>
+      <Text style={styles.title}>Popular movies</Text>
       <View>
-        <Card>
         <MovieList/>
-        </Card>
       </View>
       </View>
     </ScrollView>
@@ -63,7 +56,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   titleContent:{
-        // flex:1,
+        flex:1,
         marginTop:5,
         alignContent:'flex-start',
         },

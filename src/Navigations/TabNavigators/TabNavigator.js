@@ -97,7 +97,7 @@ const TabNavigator = () => {
 
 const styles = StyleSheet.create({
   tabbarContainer: {
-    position: 'absolute',
+    position: 'relative',
     width: '100%',
     height: 80,
     backgroundColor: '#F8F7FB',
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     paddingHorizontal: 20,
+    top:5,
     alignItems: 'center',
   },
   tabBarLabel: {
