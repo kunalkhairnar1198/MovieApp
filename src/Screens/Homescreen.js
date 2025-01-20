@@ -26,9 +26,9 @@ const Homescreen = () => {
       </View>
       
       <View style={styles.titleContent}>
-         <Text style={styles.title}>WatchList</Text>
+         {/* <Text style={styles.title}>WatchList</Text> */}
          <View>
-        <WatchList/>
+        {/* <WatchList/> */}
       </View>
       </View>
      
@@ -36,7 +36,7 @@ const Homescreen = () => {
       <View style={styles.titleContent}>
       <Text style={styles.title}>Favorite</Text>
       <View>
-        <FavoriteList/>
+        {/* <FavoriteList/> */}
       </View>
       </View>
       

@@ -5,6 +5,7 @@ import Profilescreen from '../../Screens/Profilescreen';
 import Favoritescreen from '../../Screens/Favoritescreen';
 import {StyleSheet, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import WatchList from '../../Components/Movies/WatchList/WatchList';
 
 const Tab = createBottomTabNavigator();
 
@@ -36,7 +37,7 @@ const TabNavigator = () => {
             fontWeight: 'bold',
           },
           tabBarIcon: ({focused}) => (
-            <Icon name="home" size={30} color={focused ? 'red' : '#000'} />
+            <Icon name="home" size={30} color={focused ? 'red' : '#000'}  />
           ),
           tabBarLabel: () => <Text style={styles.tabBarLabel}>Home</Text>,
         }}
@@ -63,6 +64,30 @@ const TabNavigator = () => {
             <Icon name="heart-o" size={30} color={focused ? 'red' : '#000'} />
           ),
           tabBarLabel: () => <Text style={styles.tabBarLabel}>Favorite</Text>,
+        }}
+      />
+
+<Tab.Screen
+        name="WatchList"
+        component={WatchList}
+        options={{
+          title: 'WatchList',
+          animation: 'fade',
+          headerStyle: {
+            backgroundColor: '#c24d4d',
+            height: 100,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            marginTop: 0,
+            marginHorizontal: 20,
+            fontSize: 30,
+            fontWeight: 'bold',
+          },
+          tabBarIcon: ({focused}) => (
+            <Icon name="bookmark-o" size={30} color={focused ? 'red' : '#000'} />
+          ),
+          tabBarLabel: () => <Text style={styles.tabBarLabel}>WatchList</Text>,
         }}
       />
 

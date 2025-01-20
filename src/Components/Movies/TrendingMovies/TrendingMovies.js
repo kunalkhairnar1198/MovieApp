@@ -15,9 +15,7 @@ import {
 
 const TrendingMovies = () => {
   const dispatch = useDispatch();
-  const [visibleMovies, setVisibleMovies] = useState([]);
   const [Refreshing, setRefreshing] = useState(false)
-  const [currentIndex, setCurrentIndex] = useState(0);
   const {trendingMovies, loading, error} = useSelector(state => state.movies);
 
   useEffect(() => {

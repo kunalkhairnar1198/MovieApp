@@ -21,7 +21,6 @@ const Loginscreen = () => {
     const errorMessage = useSelector(state => state.ui.validText)
     const dispatch = useDispatch()
 
-    console.log(logedInUser)
 
     const switchSingupHanlder =()=>{
         navigation.navigate('Signup')   
@@ -31,6 +30,8 @@ const Loginscreen = () => {
     useEffect(()=>{
         getUserData()
         console.log('Logedin')
+        console.log('logedInUser',logedInUser)
+
     },[])
 
     const SingInHandler =()=>{

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -8,15 +8,39 @@ import {
   FlatList,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPopularMovies, image500 } from '../../../Store/Features/Actions/movies-actions';
+import { addWatchListToAsyncStorage, fetchPopularMovies, fetchWatchListToAsyncStorage, image500 } from '../../../Store/Features/Actions/movies-actions';
+import Button from '../../UI/Button';
+import AntDesign from 'react-native-vector-icons/AntDesign'
+import Fontisto from 'react-native-vector-icons/Fontisto'
 
 const MovieList = () => {
   const dispatch = useDispatch();
+  const [wathchMovies, setWatchMovies] = useState([])
   const { popularMovies, loading, error } = useSelector((state) => state.movies);
 
+
+
   useEffect(() => {
-    dispatch(fetchPopularMovies());
+
+     dispatch(fetchPopularMovies());
+
   }, [dispatch]);
+
+
+
+  const onFavoriteSaveHandler =(item)=>{
+  
+    
+  }
+
+  const onWatchlistSaveHandler =(item)=>{
+    // console.log(item)
+        const updatedMovies =[...wathchMovies, item]
+        setWatchMovies(updatedMovies)
+    // console.log('updated movies',updatedMovies)
+
+    dispatch(addWatchListToAsyncStorage(updatedMovies))
+  }
 
   const { width, height } = Dimensions.get('window');
 
@@ -25,7 +49,7 @@ const MovieList = () => {
       <View
         style={[
           styles.cardContainer,
-          { width: width * 0.4, height: height * 0.2 }, 
+          { width: width * 0.4, height: height * 0.3 }, 
         ]}
       >
         <ImageBackground
@@ -33,18 +57,22 @@ const MovieList = () => {
           style={styles.imageBackground}
           imageStyle={styles.imageStyle}
         >
-          <View style={styles.overlay} />
           <View style={styles.textContainer}>
             <Text style={styles.movieTitle}>{item.title}</Text>
-            <Text style={styles.movieDescription} numberOfLines={3}>
-              {item.overview}
-            </Text>
             <View style={styles.bottomSection}>
               <Text style={styles.movieRating}>
                 IMDb: {item.vote_average.toFixed(1)}
               </Text>
               <Text style={styles.movieTiming}>{'2h 30m'}</Text>
             </View>
+          </View>
+          <View style={styles.buttonSection}>
+            <Button onPress={()=>onWatchlistSaveHandler(item)}>
+              <Fontisto name="favorite" size={20} color='white' />
+            </Button>
+            <Button onPress={ onFavoriteSaveHandler}>
+              <AntDesign name="hearto" size={20} color='white' />
+            </Button>
           </View>
         </ImageBackground>
       </View>
@@ -94,6 +122,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'flex-start',
+    paddingBottom:15
   },
   flatListContent: {
     paddingHorizontal: 10,
@@ -111,10 +140,6 @@ const styles = StyleSheet.create({
   imageStyle: {
     borderRadius: 15,
   },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-  },
   textContainer: {
     padding: 10,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -126,14 +151,14 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginBottom: 5,
   },
-  movieDescription: {
-    fontSize: 14,
-    color: '#ddd',
-    marginBottom: 10,
-  },
   bottomSection: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  buttonSection:{
+     flexDirection:'row',
+     alignItems:'flex-end',
+     justifyContent:'space-between',
   },
   movieRating: {
     fontSize: 14,

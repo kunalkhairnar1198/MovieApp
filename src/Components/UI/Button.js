@@ -1,9 +1,20 @@
-import React from 'react'
+import React, { Children } from 'react'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 
-const Button = () => {
+const Button = ({children, onPress}) => {
   return (
-    <div>Button</div>
+    <TouchableOpacity
+    onPress={onPress}
+    >
+      {children}
+    </TouchableOpacity>
   )
 }
+
+// const styles = StyleSheet.create({
+//   button:{
+  
+//   }
+// })
 
 export default Button   

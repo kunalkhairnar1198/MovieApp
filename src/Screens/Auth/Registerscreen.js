@@ -24,7 +24,7 @@ const Registerscreen = () => {
   const registredUsers = useSelector(state => state.auth.RegisterUser)
   const dispatch = useDispatch();
 
-  console.log(registerUser);
+  console.log('-----------',registredUsers);
 
   useEffect(()=>{
     dispatch(getUserData())

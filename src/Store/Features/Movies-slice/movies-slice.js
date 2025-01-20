@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { fetchPopularMovies, fetchTrendingMovies } from "../Actions/movies-actions";
+import { addWatchListToAsyncStorage, fetchPopularMovies, fetchTrendingMovies, fetchWatchListToAsyncStorage } from "../Actions/movies-actions";
 
 const initialState = {
     trendingMovies:[],
     popularMovies:[],
+    movieWatchList:[],
+    favoriteMovieList:[],
     loading:'false',
     error:null,
 }
@@ -12,6 +14,7 @@ const moviesSlice = createSlice({
     name:'movies',
     initialState,   
     reducers:{
+
     },
     extraReducers: (builder) => {
       builder
@@ -32,17 +35,39 @@ const moviesSlice = createSlice({
         .addCase(fetchPopularMovies.pending, (state)=>{
           state.loading = true
           state.error = null
-          console.log('popular movies fetch pending')
+          // console.log('popular movies fetch pending')
         })
         .addCase(fetchPopularMovies.fulfilled, (state,action)=>{
           state.loading = false;
           state.popularMovies = action.payload
-          console.log('fetching succesfully popular movies data', state.popularMovies)
+          // console.log('fetching succesfully popular movies data', state.popularMovies)
         })
         .addCase(fetchPopularMovies.rejected,(state,action)=>{
           state.loading = false;
           state.error = action.payload
-          console.log('Fetching popular movies data')
+          // console.log('Fetching popular movies data')
+        })
+
+        //watchlistFetch
+        .addCase(fetchWatchListToAsyncStorage.pending,(state)=>{
+          state.loading = true
+          state.error = null
+        })
+        .addCase(fetchWatchListToAsyncStorage.fulfilled,(state, action)=>{
+          state.loading = false
+          state.movieWatchList = action.payload
+
+          console.log('state watchlist', state.movieWatchList)
+        })
+        .addCase(fetchWatchListToAsyncStorage.rejected,(state, action)=>{
+          state.loading = false
+          state.error = action.payload
+        })
+        .addCase(addWatchListToAsyncStorage.fulfilled,(state, action)=>{
+          state.loading=false
+          // const updatedWatchList = [...state.movieWatchList, action.payload]
+          // state.movieWatchList.push(action.payload)
+          // console.log('--add to async storage-', action.payload)
         })
 
         
