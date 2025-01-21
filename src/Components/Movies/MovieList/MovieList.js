@@ -6,6 +6,7 @@ import {
   Text,
   View,
   FlatList,
+  TouchableOpacity,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { addWatchListToAsyncStorage, fetchPopularMovies, fetchWatchListToAsyncStorage, image500 } from '../../../Store/Features/Actions/movies-actions';
@@ -14,8 +15,9 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import Loader from '../../UI/Loader';
 
-const MovieList = () => {
+const MovieList = ({navigation}) => {
   const dispatch = useDispatch();
+  // const navigation = useNavigation()
   const [wathchMovies, setWatchMovies] = useState([])
   const { popularMovies, loading, error } = useSelector((state) => state.movies);
 
@@ -29,8 +31,8 @@ const MovieList = () => {
 
 
 
-  const onFavoriteSaveHandler =(item)=>{
-  
+  const onFavoriteSaveHandler =()=>{
+    
     
   }
 
@@ -47,6 +49,9 @@ const MovieList = () => {
 
   const renderPopularMoviesCard = ({ item }) => {
     return (
+      <TouchableOpacity 
+      onPress={()=>navigation.navigate('Moviedetails', { item })}
+      >
       <View
         style={[
           styles.cardContainer,
@@ -77,6 +82,8 @@ const MovieList = () => {
           </View>
         </ImageBackground>
       </View>
+      </TouchableOpacity>
+
     );
   };
 

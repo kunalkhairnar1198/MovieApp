@@ -6,20 +6,21 @@ import Favoritescreen from '../../Screens/Favoritescreen';
 import {StyleSheet, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import WatchList from '../../Components/Movies/WatchList/WatchList';
+import HomeStackNav from '../HomeNavigators/HomeStackNav';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="HomestackNav"
       screenOptions={{
         tabBarActiveTintColor: 'red',
         tabBarStyle: {...styles.tabbarContainer},
       }}>
       <Tab.Screen
-        name="Home"
-        component={Homescreen}
+        name="HomestackNav"
+        component={HomeStackNav}
         options={{
           title: 'Movies',
           animation: 'fade',

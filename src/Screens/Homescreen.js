@@ -6,7 +6,7 @@ import FavoriteList from '../Components/Movies/FavoriteList/FavoriteList';
 import MovieList from '../Components/Movies/MovieList/MovieList';
 import Card from '../Components/UI/Card';
 
-const Homescreen = () => {
+const Homescreen = ({navigation}) => {
   return (
     <ScrollView
       style={[
@@ -43,7 +43,7 @@ const Homescreen = () => {
       <View style={styles.titleContent}>
       <Text style={styles.title}>Popular movies</Text>
       <View>
-        <MovieList/>
+        <MovieList navigation={navigation}/>
       </View>
       </View>
     </ScrollView>

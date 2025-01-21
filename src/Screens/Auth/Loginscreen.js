@@ -47,6 +47,8 @@ const Loginscreen = () => {
             
         }else{
             dispatch(UiActions.isErrorMessage('user is not found'))
+            navigation.navigate('Authnavigator')
+
         }
         console.log(loginUser)
 

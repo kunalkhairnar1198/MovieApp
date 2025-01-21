@@ -15,7 +15,7 @@ const popularMoviesEndpoint = `${BASE_URL}/movie/popular?api_key=${API_KEY}`
 export const fetchTrendingMovies = createAsyncThunk('movies/fetchTrendingMovies',
     async()=>{
         const response = await axios.get(trendingMoviesEndpoint);
-        console.log('Data fetched:', response.data);
+        // console.log('Data fetched:', response.data);
         return response.data.results;
     }
 
@@ -25,7 +25,7 @@ export const fetchTrendingMovies = createAsyncThunk('movies/fetchTrendingMovies'
 export const fetchPopularMovies = createAsyncThunk('movies/fetchPopularMovies',
     async()=>{
         const response = await axios.get(popularMoviesEndpoint);
-        console.log('popular movies fetch', response.data)
+        // console.log('popular movies fetch', response.data)
         return response.data.results;
     }
 )
@@ -48,7 +48,7 @@ export const fetchWatchListToAsyncStorage = createAsyncThunk('movies/fetchWatchL
         try {
             const response = await AsyncStorage.getItem('watchList')
             const data = JSON.parse(response)
-            console.log('-----store data----',data)
+            // console.log('-----store data----',data)
             return data
             // if(!data){
                
