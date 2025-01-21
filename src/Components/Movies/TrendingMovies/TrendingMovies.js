@@ -12,6 +12,7 @@ import {
   fetchTrendingMovies,
   image500,
 } from '../../../Store/Features/Actions/movies-actions';
+import Loader from '../../UI/Loader';
 
 const TrendingMovies = () => {
   const dispatch = useDispatch();
@@ -62,7 +63,7 @@ const TrendingMovies = () => {
   }
 
   if (loading) {
-    return <Text>Loading...</Text>;
+    return <Loader/>;
   }
 
   if (error) {

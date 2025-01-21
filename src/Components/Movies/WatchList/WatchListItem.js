@@ -47,11 +47,11 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginVertical: 5,
+        marginVertical: 10,
       },
       imageStyle: {
-        width: 150,
-        height: 200,
+        width: 130,
+        height: 180,
         borderRadius: 10,
         marginHorizontal: 10,
       },

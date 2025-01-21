@@ -12,6 +12,7 @@ import { addWatchListToAsyncStorage, fetchPopularMovies, fetchWatchListToAsyncSt
 import Button from '../../UI/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Fontisto from 'react-native-vector-icons/Fontisto'
+import Loader from '../../UI/Loader';
 
 const MovieList = () => {
   const dispatch = useDispatch();
@@ -81,9 +82,7 @@ const MovieList = () => {
 
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Loading...</Text>
-      </View>
+      <Loader/>
     );
   }
 

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchWatchListToAsyncStorage, image500 } from '../../../Store/Features/Actions/movies-actions';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import WatchListItem from './WatchListItem';
+import Loader from '../../UI/Loader';
 
 const WatchList = () => {
   const dispatch = useDispatch();
@@ -13,14 +14,10 @@ const WatchList = () => {
     dispatch(fetchWatchListToAsyncStorage());
   }, [dispatch]);
 
+  
   if (loading) {
     return (
-      <SafeAreaProvider>
-        <View style={styles.loaderContainer}>
-          <ActivityIndicator size="large" color="#c0a914" />
-          <Text style={styles.loaderText}>Loading Watchlist...</Text>
-        </View>
-      </SafeAreaProvider>
+     <Loader/>
     );
   }
 
@@ -63,16 +60,6 @@ const WatchList = () => {
 };
 
 const styles = StyleSheet.create({
-  loaderContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  loaderText: {
-    marginTop: 10,
-    fontSize: 16,
-    color: '#c0a914',
-  },
   errorContainer: {
     flex: 1,
     justifyContent: 'center',
