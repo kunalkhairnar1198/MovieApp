@@ -126,8 +126,7 @@ const styles = StyleSheet.create({
     textAlign:'auto'
   },
   originalTitle: {  
-    width: '100%',
-    textAlign: 'center',
+    textAlign: 'auto',
     // backgroundColor: 'yellow',
     fontSize: 25,
     fontWeight: 'bold',
