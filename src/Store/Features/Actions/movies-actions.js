@@ -5,11 +5,15 @@ import axios from "axios";
 const API_KEY = 'ee685f440549ded82e3e87a8eed2f321';
 const BASE_URL = 'https://api.themoviedb.org/3';
 
+//movies detail url api 
+// https://api.themoviedb.org/3/movie/539972?language=en-US
 
 export const image500 =path=>path?`https://image.tmdb.org/t/p/w500/${path}`:null
 
 const trendingMoviesEndpoint= `${BASE_URL}/trending/movie/day?api_key=${API_KEY}`
 const popularMoviesEndpoint = `${BASE_URL}/movie/popular?api_key=${API_KEY}` 
+
+const moviesDetailsEndpoint =id => `${BASE_URL}/movie/${id}?api_key=${API_KEY}`
 
 //Fetching all the trending movies
 export const fetchTrendingMovies = createAsyncThunk('movies/fetchTrendingMovies',
@@ -29,6 +33,7 @@ export const fetchPopularMovies = createAsyncThunk('movies/fetchPopularMovies',
         return response.data.results;
     }
 )
+
 
 export const addWatchListToAsyncStorage = createAsyncThunk('movies/addWatchListToAsyncStorage',
     async (data)=>{
@@ -57,6 +62,17 @@ export const fetchWatchListToAsyncStorage = createAsyncThunk('movies/fetchWatchL
             console.log(error)
         }
 
+    }
+)
+
+export const fetchMoviesDetails = createAsyncThunk('movies/fetchMoviesDetails',
+    async(id)=>{
+        // console.log('add id for Movies details', id)
+    
+            const response = await axios.get(moviesDetailsEndpoint(id));
+            // console.log('api fetch succesfully',response.data)
+            return response.data
+        
     }
 )
 

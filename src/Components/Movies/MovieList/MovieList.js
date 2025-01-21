@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { addWatchListToAsyncStorage, fetchPopularMovies, fetchWatchListToAsyncStorage, image500 } from '../../../Store/Features/Actions/movies-actions';
+import { addWatchListToAsyncStorage,  fetchMoviesDetails,  fetchPopularMovies,  image500 } from '../../../Store/Features/Actions/movies-actions';
 import Button from '../../UI/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Fontisto from 'react-native-vector-icons/Fontisto'
@@ -44,12 +44,18 @@ const MovieList = ({navigation}) => {
     dispatch(addWatchListToAsyncStorage(updatedMovies))
   }
 
+  const switchToDetailPageHandler =(item)=>{
+    navigation.navigate('Moviedetails', { item })
+    console.log(item.id)
+    dispatch(fetchMoviesDetails(item.id))
+  }
+
   const { width, height } = Dimensions.get('window');
 
   const renderPopularMoviesCard = ({ item }) => {
     return (
       <TouchableOpacity 
-      onPress={()=>navigation.navigate('Moviedetails', { item })}
+      onPress={()=>switchToDetailPageHandler(item)}
       >
       <View
         style={[

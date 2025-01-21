@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { addWatchListToAsyncStorage, fetchPopularMovies, fetchTrendingMovies, fetchWatchListToAsyncStorage } from "../Actions/movies-actions";
+import { addWatchListToAsyncStorage, fetchMoviesDetails, fetchPopularMovies, fetchTrendingMovies, fetchWatchListToAsyncStorage } from "../Actions/movies-actions";
 
 const initialState = {
     trendingMovies:[],
     popularMovies:[],
     movieWatchList:[],
     favoriteMovieList:[],
+    moviesDetailList:'',
     loading:'false',
     error:null,
 }
@@ -40,7 +41,7 @@ const moviesSlice = createSlice({
         .addCase(fetchPopularMovies.fulfilled, (state,action)=>{
           state.loading = false;
           state.popularMovies = action.payload
-          // console.log('fetching succesfully popular movies data', state.popularMovies)
+          console.log('fetching succesfully popular movies data', state.popularMovies)
         })
         .addCase(fetchPopularMovies.rejected,(state,action)=>{
           state.loading = false;
@@ -70,6 +71,18 @@ const moviesSlice = createSlice({
           // console.log('--add to async storage-', action.payload)
         })
 
+        //fetch movie details
+        .addCase(fetchMoviesDetails.pending, (state) => {
+          state.loading = true;
+        })
+        .addCase(fetchMoviesDetails.fulfilled, (state, action) => {
+          state.loading = false; 
+          state.moviesDetailList =action.payload; 
+        })
+        .addCase(fetchMoviesDetails.rejected, (state, action) => {
+          state.loading = false; 
+          state.error = action.error.message; 
+        });
         
     },
   });
