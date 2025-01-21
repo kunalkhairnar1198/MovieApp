@@ -7,17 +7,22 @@ import {StyleSheet, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import WatchList from '../../Components/Movies/WatchList/WatchList';
 import HomeStackNav from '../HomeNavigators/HomeStackNav';
+import {  useRoute } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+
+  const navigation = useRoute()
+  console.log(navigation)
   return (
     <Tab.Navigator
       initialRouteName="HomestackNav"
       screenOptions={{
         tabBarActiveTintColor: 'red',
         tabBarStyle: {...styles.tabbarContainer},
-      }}>
+      }
+      }>
       <Tab.Screen
         name="HomestackNav"
         component={HomeStackNav}

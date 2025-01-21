@@ -17,7 +17,6 @@ import Loader from '../../UI/Loader';
 
 const MovieList = ({navigation}) => {
   const dispatch = useDispatch();
-  // const navigation = useNavigation()
   const [wathchMovies, setWatchMovies] = useState([])
   const { popularMovies, loading, error } = useSelector((state) => state.movies);
 

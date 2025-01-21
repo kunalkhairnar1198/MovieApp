@@ -8,9 +8,26 @@ const Stack = createStackNavigator()
 
 const HomeStackNav = () => {
   return (
-        <Stack.Navigator initialRouteName='Home'  screenOptions={{headerShown:false}}>
-            <Stack.Screen name='Home' component={Homescreen} />
-            <Stack.Screen name='Moviedetails' component={MovieDetails} />
+        <Stack.Navigator initialRouteName='Home' >
+            <Stack.Screen name='Home' component={Homescreen} options={{headerShown:false}} />
+            <Stack.Screen name='Moviedetails' component={MovieDetails} 
+             options={{
+                headerShown:true,
+                title: 'Movies Details',
+                animation: 'slide_from_right',
+                headerStyle:{
+                    backgroundColor:'#c24d4d',
+                    height:100
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  marginTop: 0,
+                  marginHorizontal: 20,
+                  fontSize: 30,
+                  fontWeight: 'bold',
+                },
+                
+                }} />
         </Stack.Navigator>
     )
 }
