@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import {
-  Dimensions,
   Image,
   ImageBackground,
   ScrollView,
@@ -23,12 +22,16 @@ const MovieDetails = ({ route, navigation }) => {
 
   useEffect(() => {
     const hideHeader = navigation.getParent()?.setOptions({ headerShown: false });
+    if(moviesDetailList){
+       navigation.setOptions({title:`${moviesDetailList.original_title}`})
+    }else{
+      <Text>Loading...</Text>
+    }
     return () => {
       navigation.getParent()?.setOptions({ headerShown: true });
     };
-  }, [navigation, item]);
+  }, [navigation, item , moviesDetailList]);
 
-  const { width, height } = Dimensions.get('window');
 
   if (loading || !moviesDetailList) {
     return <Loader />;

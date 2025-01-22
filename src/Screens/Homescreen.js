@@ -1,12 +1,30 @@
-import React from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import TrendingMovies from '../Components/Movies/TrendingMovies/TrendingMovies'
 import WatchList from '../Components/Movies/WatchList/WatchList';
 import FavoriteList from '../Components/Movies/FavoriteList/FavoriteList';
 import MovieList from '../Components/Movies/MovieList/MovieList';
-import Card from '../Components/UI/Card';
+import { useDispatch } from 'react-redux';
+import { fetchPopularMovies, fetchTrendingMovies } from '../Store/Features/Actions/movies-actions';
+import SearchBar from '../Components/SearchBar/SearchBar';
+import CustomSearchBar from '../Components/SearchBar/CustomeSearchBar';
 
 const Homescreen = ({navigation}) => {
+
+  const [refreshingScreen, setIsRefreshing] = useState(false)
+  const dispatch =useDispatch()
+
+
+  const onScrollControler=useCallback(()=>{
+      setIsRefreshing(true)
+        dispatch(fetchPopularMovies())
+        dispatch(fetchTrendingMovies())
+      setTimeout(()=>{
+        setIsRefreshing(false)
+      },2000)
+
+  },[])
+
   return (
     <ScrollView
       style={[
@@ -14,10 +32,17 @@ const Homescreen = ({navigation}) => {
         {
           flexDirection: 'column',
         },
-      ]}>
-        <View>
+      ]}
+      refreshControl={
+        <RefreshControl refreshing={refreshingScreen} onRefresh={onScrollControler}/>
+      }
+      >
+      <View style={styles.titleContent}>
+        <View style={styles.section}>
+             <CustomSearchBar navigation={navigation}/>
+      </View>
+      </View>
           
-        </View>
       <View style={styles.titleContent}>
         <Text style={styles.title}>Trending</Text>
         <View style={styles.section}>
@@ -34,7 +59,7 @@ const Homescreen = ({navigation}) => {
      
      
       <View style={styles.titleContent}>
-      <Text style={styles.title}>Favorite</Text>
+      {/* <Text style={styles.title}>Favorite</Text> */}
       <View>
         {/* <FavoriteList/> */}
       </View>
@@ -56,10 +81,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   titleContent:{
-        flex:1,
-        marginTop:5,
-        alignContent:'flex-start',
-        },
+    flex:1,
+    marginTop:5,
+    alignContent:'flex-start',
+  },
   title:{
     fontSize:25,
     fontWeight:'bold',
@@ -70,4 +95,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Homescreen
+export default Homescreen;

@@ -14,6 +14,8 @@ const trendingMoviesEndpoint= `${BASE_URL}/trending/movie/day?api_key=${API_KEY}
 const popularMoviesEndpoint = `${BASE_URL}/movie/popular?api_key=${API_KEY}` 
 
 const moviesDetailsEndpoint =id => `${BASE_URL}/movie/${id}?api_key=${API_KEY}`
+const searchMoviesApiEndpoint = query => `${BASE_URL}/search/movie?query=${query}`
+
 
 //Fetching all the trending movies
 export const fetchTrendingMovies = createAsyncThunk('movies/fetchTrendingMovies',
@@ -73,6 +75,12 @@ export const fetchMoviesDetails = createAsyncThunk('movies/fetchMoviesDetails',
             // console.log('api fetch succesfully',response.data)
             return response.data
         
+    }
+)
+
+export const searchMovies = createAsyncThunk('movies/searchMovies',
+    async(params)=>{
+        // const data
     }
 )
 
