@@ -15,6 +15,7 @@ const TabNavigator = () => {
       initialRouteName="HomestackNav"
       screenOptions={{
         tabBarActiveTintColor: 'red',
+        tabBarHideOnKeyboard:true,
         tabBarStyle: {...styles.tabbarContainer},
       }}>
       <Tab.Screen
@@ -126,16 +127,17 @@ const TabNavigator = () => {
 
 const styles = StyleSheet.create({
   tabbarContainer: {
-    position: 'static',
+    position: 'relative',
     // width: '100%',
     height: 80,
-    backgroundColor: '#F8F7FB',
+    // backgroundColor: '#F8F7FB',
     // borderRadius: 30,
+    // bottom:0,
     elevation: 5,
     flexDirection: 'column',
     justifyContent: 'space-around',
-    // paddingHorizontal: 10,
-    top: 5,
+    paddingHorizontal: 10,
+    // top: 5,
     alignItems: 'center',
   },
   tabBarLabel: {

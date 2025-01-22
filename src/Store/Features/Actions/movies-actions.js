@@ -14,7 +14,11 @@ const trendingMoviesEndpoint= `${BASE_URL}/trending/movie/day?api_key=${API_KEY}
 const popularMoviesEndpoint = `${BASE_URL}/movie/popular?api_key=${API_KEY}` 
 
 const moviesDetailsEndpoint =id => `${BASE_URL}/movie/${id}?api_key=${API_KEY}`
-const searchMoviesApiEndpoint = query => `${BASE_URL}/search/movie?query=${query}`
+const searchMovieEndpoint = params => `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${params}`
+
+    // https://api.themoviedb.org/3/search/movie?api_key=ee685f440549ded82e3e87a8eed2f321&query=pu
+
+// const searchMoviesEndpoint=`${BASE_URL}/search/movie?api_key=${API_KEY}`
 
 
 //Fetching all the trending movies
@@ -80,7 +84,10 @@ export const fetchMoviesDetails = createAsyncThunk('movies/fetchMoviesDetails',
 
 export const searchMovies = createAsyncThunk('movies/searchMovies',
     async(params)=>{
-        // const data
+        console.log(params)
+        const response = await axios.get(searchMovieEndpoint(params))
+        console.log(response.data)
+        return response.data
     }
 )
 

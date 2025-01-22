@@ -37,7 +37,22 @@ const HomeStackNav = () => {
       <Stack.Screen
         name="Search"
         component={SearchBar}
-        options={{headerShown: 'false'}}
+        options={{
+          headerShown: true,
+          title: 'Search',
+          animation: 'slide_from_right',
+          headerStyle: {
+            backgroundColor: '#c24d4d',
+            height: 60,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            marginTop: 0,
+            marginHorizontal: 20,
+            fontSize: 20,
+            fontWeight: 'bold',
+          },
+        }}
       />
     </Stack.Navigator>
   );
