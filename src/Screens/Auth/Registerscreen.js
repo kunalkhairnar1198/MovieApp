@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
+import React, { useState} from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -11,7 +11,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {UiActions} from '../../Store/Features/Ui-slice/ui-slice';
-import { getUserData, registerUser } from '../../Store/Features/Auth-slice/auth-slice';
+import { AuthActions} from '../../Store/Features/Auth-slice/auth-slice';
 
 const Registerscreen = () => {
   const navigation = useNavigation();
@@ -21,15 +21,10 @@ const Registerscreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const errorMessage = useSelector(state => state.ui.validText);
-  const registredUsers = useSelector(state => state.auth.RegisterUser)
+  const {logedInUser} = useSelector(state => state.auth)
   const dispatch = useDispatch();
 
-  console.log('-----------',registredUsers);
-
-  useEffect(()=>{
-    dispatch(getUserData())
-    // dispatch(clearData())
-},[])
+  // console.log('-----------',registredUsers);
 
   const swithchHandleTosignIn = () => {
     navigation.navigate('Login'); 
@@ -57,7 +52,7 @@ const Registerscreen = () => {
     } else if (password !== confirmPassword) {
       dispatch(UiActions.isErrorMessage('do not match password'));
     } else {  
-      dispatch(registerUser(userRegisterData))
+      dispatch(AuthActions.RegisterUser(userRegisterData))
       console.log(userRegisterData) 
       dispatch(UiActions.isErrorMessage(''));
       navigation.push('Login');

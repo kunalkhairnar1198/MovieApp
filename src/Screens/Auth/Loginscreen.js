@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { getUserData } from '../../Store/Features/Auth-slice/auth-slice';
+import { AuthActions } from '../../Store/Features/Auth-slice/auth-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { UiActions } from '../../Store/Features/Ui-slice/ui-slice';
 
@@ -17,21 +17,18 @@ const Loginscreen = () => {
     const navigation = useNavigation()
     const [email, setEmail] = useState('')
     const [password, setPassword]= useState('')
-    const logedInUser = useSelector(state => state.auth.RegisterUser)
+    const {user, logedInUser} = useSelector(state => state.auth)
     const errorMessage = useSelector(state => state.ui.validText)
     const dispatch = useDispatch()
 
 
     const switchSingupHanlder =()=>{
         navigation.navigate('Signup')   
-        console.log(navigation) 
     }
 
     useEffect(()=>{
-        getUserData()
-        console.log('Logedin')
-        console.log('logedInUser',logedInUser)
-
+        console.log('users all',logedInUser)
+        console.log('login user', user)
     },[])
 
     const SingInHandler =()=>{
@@ -39,18 +36,15 @@ const Loginscreen = () => {
             email,
             password,
         }
-        
 
-        if(logedInUser.email === logedInUser.email){
+        if(loginUser.email.toLowerCase() === logedInUser.email.toLowerCase()){
+            dispatch(AuthActions.LoginUser(loginUser))
             dispatch(UiActions.isErrorMessage('Login Succesfull '))
-            navigation.navigate('Tabnav')
             
         }else{
             dispatch(UiActions.isErrorMessage('user is not found'))
-            navigation.navigate('Authnavigator')
 
         }
-        console.log(loginUser)
 
 
 
