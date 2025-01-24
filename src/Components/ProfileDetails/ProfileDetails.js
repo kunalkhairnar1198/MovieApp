@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   phone: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#555',TandC
+    color: '#555',
   },
   navButton: {
     marginTop: 20,

@@ -9,11 +9,7 @@ import Loader from '../../UI/Loader';
 const WatchList = () => {
   const dispatch = useDispatch();
   const { movieWatchList = [], loading, error } = useSelector((state) => state.movies);
-
-  useEffect(() => {
-    dispatch(fetchWatchListToAsyncStorage());
-  }, [dispatch]);
-
+  console.log('movieswatchlist compo', movieWatchList)
   
   if (loading) {
     return (

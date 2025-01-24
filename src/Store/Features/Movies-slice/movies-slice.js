@@ -15,6 +15,32 @@ const moviesSlice = createSlice({
     name:'movies',
     initialState,   
     reducers:{
+      addMoviesToWatchList(state, action) {
+
+        const existingMovie = state.movieWatchList.find((item) => item.id === action.payload.id);
+        
+        if (!existingMovie) {
+            state.movieWatchList = [...state.movieWatchList, action.payload];
+            console.log('updated list',state.movieWatchList)
+        }
+
+       },
+       addMoviesToFavoriteList(state, action){
+        const existingMovie = state.favoriteMovieList.find((item) => item.id === action.payload.id);
+        
+        if (!existingMovie) {
+            state.favoriteMovieList = [...state.favoriteMovieList, action.payload];
+            console.log('updated list', state.favoriteMovieList)
+        }
+       },
+
+      removeWathListItem(state, action){
+
+      },
+      clearWathlistItem(state, action){
+        state.movieWatchList=[]
+      }
+
 
     },
     extraReducers: (builder) => {
@@ -49,27 +75,27 @@ const moviesSlice = createSlice({
           // console.log('Fetching popular movies data')
         })
 
-        //watchlistFetch
-        .addCase(fetchWatchListToAsyncStorage.pending,(state)=>{
-          state.loading = true
-          state.error = null
-        })
-        .addCase(fetchWatchListToAsyncStorage.fulfilled,(state, action)=>{
-          state.loading = false
-          state.movieWatchList = action.payload
+        // //watchlistFetch
+        // .addCase(fetchWatchListToAsyncStorage.pending,(state)=>{
+        //   state.loading = true
+        //   state.error = null
+        // })
+        // .addCase(fetchWatchListToAsyncStorage.fulfilled,(state, action)=>{
+        //   state.loading = false
+        //   state.movieWatchList = action.payload
 
-          console.log('state watchlist', state.movieWatchList)
-        })
-        .addCase(fetchWatchListToAsyncStorage.rejected,(state, action)=>{
-          state.loading = false
-          state.error = action.payload
-        })
-        .addCase(addWatchListToAsyncStorage.fulfilled,(state, action)=>{
-          state.loading=false
-          // const updatedWatchList = [...state.movieWatchList, action.payload]
-          // state.movieWatchList.push(action.payload)
-          // console.log('--add to async storage-', action.payload)
-        })
+        //   console.log('state watchlist', state.movieWatchList)
+        // })
+        // .addCase(fetchWatchListToAsyncStorage.rejected,(state, action)=>{
+        //   state.loading = false
+        //   state.error = action.payload
+        // })
+        // .addCase(addWatchListToAsyncStorage.fulfilled,(state, action)=>{
+        //   state.loading=false
+        //   // const updatedWatchList = [...state.movieWatchList, action.payload]
+        //   // state.movieWatchList.push(action.payload)
+        //   // console.log('--add to async storage-', action.payload)
+        // })
 
         //fetch movie details
         .addCase(fetchMoviesDetails.pending, (state) => {

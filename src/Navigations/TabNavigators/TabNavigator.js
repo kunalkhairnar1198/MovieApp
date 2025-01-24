@@ -6,6 +6,7 @@ import {StyleSheet, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import WatchList from '../../Components/Movies/WatchList/WatchList';
 import HomeStackNav from '../HomeNavigators/HomeStackNav';
+import WatchlistScreen from '../../Screens/WatchlistScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -70,7 +71,7 @@ const TabNavigator = () => {
 
       <Tab.Screen
         name="WatchList"
-        component={WatchList}
+        component={WatchlistScreen}
         options={{
           title: 'WatchList',
           animation: 'fade',

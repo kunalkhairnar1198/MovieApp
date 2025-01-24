@@ -1,11 +1,14 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import FavoriteList from '../Components/Movies/FavoriteList/FavoriteList'
+import { createStackNavigator } from '@react-navigation/stack'
+
+const Stack = createStackNavigator()
 
 const Favoritescreen = () => {
   return (
-    <View>
-        <Text>Favoritescreen</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name='Favoritelist' component={FavoriteList} options={{headerShown:false}}/>
+    </Stack.Navigator>
   )
 }
 

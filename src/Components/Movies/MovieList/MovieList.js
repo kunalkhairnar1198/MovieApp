@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -14,6 +14,7 @@ import Button from '../../UI/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import Fontisto from 'react-native-vector-icons/Fontisto'
 import Loader from '../../UI/Loader';
+import { moviesActions } from '../../../Store/Features/Movies-slice/movies-slice';
 
 const MovieList = ({navigation}) => {
   const dispatch = useDispatch();
@@ -30,19 +31,15 @@ const MovieList = ({navigation}) => {
 
 
 
-  const onFavoriteSaveHandler =()=>{
-    
-    
-  }
+  const onFavoriteSaveHandler =useCallback((item)=>{
+    dispatch(moviesActions.addMoviesToFavoriteList(item))
+    // dispatch(moviesActions.clearWathlistItem())
+  },[])
 
-  const onWatchlistSaveHandler =(item)=>{
-    // console.log(item)
-        const updatedMovies =[...wathchMovies, item]
-        setWatchMovies(updatedMovies)
-    // console.log('updated movies',updatedMovies)
-
-    dispatch(addWatchListToAsyncStorage(updatedMovies))
-  }
+  const onWatchlistSaveHandler =useCallback((item)=>{
+    // console.log('item', item)
+    dispatch(moviesActions.addMoviesToWatchList(item))
+  },[dispatch])
 
   const switchToDetailPageHandler =(item)=>{
     navigation.navigate('Moviedetails', { item })
@@ -79,9 +76,9 @@ const MovieList = ({navigation}) => {
           </View>
           <View style={styles.buttonSection}>
             <Button onPress={()=>onWatchlistSaveHandler(item)}>
-              <Fontisto name="favorite" size={20} color='white' />
+              <Fontisto name="favorite" size={30} color='white' />
             </Button>
-            <Button onPress={ onFavoriteSaveHandler}>
+            <Button onPress={()=>onFavoriteSaveHandler(item)}>
               <AntDesign name="hearto" size={20} color='white' />
             </Button>
           </View>

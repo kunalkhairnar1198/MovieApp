@@ -1,6 +1,6 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from "redux-persist";
+import { persistStore, persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import storage from "@react-native-async-storage/async-storage"; 
 import authReducer from "./Features/Auth-slice/auth-slice";
 import moviesReducer from "./Features/Movies-slice/movies-slice";
@@ -16,23 +16,26 @@ const authPersistConfig = {
 const moviesPersistConfig = {
   key: "movies",
   storage,
+  whitelist:[ 'movieWatchList','favoriteMovieList'],
   blacklist: ['loading'], 
 };
 
-const rootReducer = {
-  auth: persistReducer(authPersistConfig, authReducer),
-  movies: persistReducer(moviesPersistConfig, moviesReducer),
-  ui: uiReducer, 
-};
+const persistAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistMovieReducer = persistReducer(moviesPersistConfig, moviesReducer)
+
+const rootReducer = combineReducers({
+    auth:persistAuthReducer,
+    movies: persistMovieReducer,
+    ui : uiReducer,
+})
+
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
-        immutableCheck: false,
-    serializableCheck: false,
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(thunk), 
 });
