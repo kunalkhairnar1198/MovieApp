@@ -16,7 +16,7 @@ const authPersistConfig = {
 const moviesPersistConfig = {
   key: "movies",
   storage,
-  whitelist:[ 'movieWatchList','favoriteMovieList'],
+  whitelist:[ 'movieWatchList','favoriteMovieList', 'watchRead', 'FavRead'],
   blacklist: ['loading'], 
 };
 

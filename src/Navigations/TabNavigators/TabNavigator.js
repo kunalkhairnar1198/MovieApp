@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Profilescreen from '../../Screens/Profilescreen';
 import Favoritescreen from '../../Screens/Favoritescreen';
 import {StyleSheet, Text} from 'react-native';
@@ -12,7 +12,7 @@ const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   const {logedInUser} = useSelector(state => state.auth)
-
+  const { watchRead, FavRead } = useSelector(state => state.movies)
 
   console.log(logedInUser)
   return (
@@ -39,6 +39,7 @@ const TabNavigator = () => {
         name="Favorite"
         component={Favoritescreen}
         options={{
+          tabBarBadge: FavRead,
           title: 'Favorite',
           animation: 'fade',
           headerStyle: {
@@ -63,6 +64,7 @@ const TabNavigator = () => {
         name="WatchList"
         component={WatchlistScreen}
         options={{
+          tabBarBadge: watchRead,
           title: 'WatchList',
           animation: 'fade',
           headerStyle: {

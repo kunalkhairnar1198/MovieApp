@@ -1,19 +1,14 @@
-import React, { useEffect } from 'react'
-import { Image, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native';
+import React from 'react'
+import { Image, StyleSheet, Text,   View } from 'react-native';
 import Card from '../../UI/Card';
 import Button from '../../UI/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {  fetchMoviesDetails, image500 } from '../../../Store/Features/Actions/movies-actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const WatchListItem = ({ navigation, id, originalTitle, overview, posterPath, voteAverage, releaseDate }) => {
     const dispatch = useDispatch()
-
-      // useEffect(()=>{
-      //   console.log(id)
-      //   dispatch(fetchMoviesDetails(id))
-      // },[id, switchToNavigateDetail])
 
     const switchToNavigateDetail=( item)=>{  
         navigation.navigate('WatchDetails',{item})
@@ -22,6 +17,7 @@ const WatchListItem = ({ navigation, id, originalTitle, overview, posterPath, vo
     }
 
     return (
+      <Button onPress={()=>switchToNavigateDetail({  id, originalTitle, overview, posterPath, voteAverage, releaseDate })}>
       <Card>
         <View style={styles.container}>
           <Image
@@ -29,7 +25,6 @@ const WatchListItem = ({ navigation, id, originalTitle, overview, posterPath, vo
             source={{ uri: image500(posterPath) }}
             resizeMode="cover"
           />
-          <TouchableOpacity onPress={()=>switchToNavigateDetail({  id, originalTitle, overview, posterPath, voteAverage, releaseDate })}>
           <View style={styles.textSection}>
             <Text style={styles.moviesTitle} numberOfLines={1}>
               {originalTitle}
@@ -52,9 +47,10 @@ const WatchListItem = ({ navigation, id, originalTitle, overview, posterPath, vo
               </Button>
             </View>
           </View>
-          </TouchableOpacity>
+         
         </View>
       </Card>
+      </Button> 
     );
 }
 const styles = StyleSheet.create({

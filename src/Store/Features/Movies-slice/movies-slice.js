@@ -8,6 +8,8 @@ const initialState = {
     favoriteMovieList:[],
     moviesDetailList:'',
     pages:1,
+    watchRead:0,
+    FavRead:0,
     loading:'false',
     error:null,
 }
@@ -22,6 +24,8 @@ const moviesSlice = createSlice({
         
         if (!existingMovie) {
             state.movieWatchList = [...state.movieWatchList, action.payload];
+
+            state.watchRead = state.watchRead + 1;
             console.log('updated movieWatchlist list',state.movieWatchList)
         }
 
@@ -31,6 +35,8 @@ const moviesSlice = createSlice({
         
         if (!existingMovie) {
             state.favoriteMovieList = [...state.favoriteMovieList, action.payload];
+
+            state.FavRead = state.FavRead + 1;
             console.log('updated list', state.favoriteMovieList)
         }
        },
@@ -41,6 +47,8 @@ const moviesSlice = createSlice({
       clearWathlistItem(state, action){
         state.movieWatchList=[]
         state.favoriteMovieList=[]
+        state.FavRead = 0;
+        state.watchRead = 0
       }
 
 
@@ -89,35 +97,15 @@ const moviesSlice = createSlice({
           // console.log('Fetching popular movies data')
         })
 
-        // //watchlistFetch
-        // .addCase(fetchWatchListToAsyncStorage.pending,(state)=>{
-        //   state.loading = true
-        //   state.error = null
-        // })
-        // .addCase(fetchWatchListToAsyncStorage.fulfilled,(state, action)=>{
-        //   state.loading = false
-        //   state.movieWatchList = action.payload
-
-        //   console.log('state watchlist', state.movieWatchList)
-        // })
-        // .addCase(fetchWatchListToAsyncStorage.rejected,(state, action)=>{
-        //   state.loading = false
-        //   state.error = action.payload
-        // })
-        // .addCase(addWatchListToAsyncStorage.fulfilled,(state, action)=>{
-        //   state.loading=false
-        //   // const updatedWatchList = [...state.movieWatchList, action.payload]
-        //   // state.movieWatchList.push(action.payload)
-        //   // console.log('--add to async storage-', action.payload)
-        // })
-
         //fetch movie details
         .addCase(fetchMoviesDetails.pending, (state) => {
           state.loading = true;
         })
         .addCase(fetchMoviesDetails.fulfilled, (state, action) => {
           state.loading = false; 
-          state.moviesDetailList =action.payload; 
+          state.moviesDetailList =action.payload;
+          state.watchRead = 0 ;
+          state.FavRead = 0;
         })
         .addCase(fetchMoviesDetails.rejected, (state, action) => {
           state.loading = false; 

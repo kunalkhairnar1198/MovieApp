@@ -16,7 +16,7 @@ import Loader from '../../UI/Loader';
 
 const WatchDetail = ({route, navigation}) => {
   const {item} = route.params;
-  console.log('--->',item)
+  // console.log('--->',item)
   const dispatch = useDispatch();
   const {moviesDetailList, loading, error} = useSelector(state => state.movies);
 
