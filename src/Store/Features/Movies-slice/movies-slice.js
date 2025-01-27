@@ -7,6 +7,7 @@ const initialState = {
     movieWatchList:[],
     favoriteMovieList:[],
     moviesDetailList:'',
+    pages:1,
     loading:'false',
     error:null,
 }
@@ -21,7 +22,7 @@ const moviesSlice = createSlice({
         
         if (!existingMovie) {
             state.movieWatchList = [...state.movieWatchList, action.payload];
-            console.log('updated list',state.movieWatchList)
+            console.log('updated movieWatchlist list',state.movieWatchList)
         }
 
        },
@@ -39,6 +40,7 @@ const moviesSlice = createSlice({
       },
       clearWathlistItem(state, action){
         state.movieWatchList=[]
+        state.favoriteMovieList=[]
       }
 
 
@@ -52,6 +54,18 @@ const moviesSlice = createSlice({
         .addCase(fetchTrendingMovies.fulfilled, (state, action) => {
           state.loading = false;
           state.trendingMovies = action.payload;
+          // state.trendingMovies =[...state.trendingMovies, action.payload]
+          if(action.payload.pages === 1){
+            state.trendingMovies = action.payload.movies
+          }else{
+            state.trendingMovies=[
+              ...state.trendingMovies,
+              ...action.payload.movies
+            ]
+          }
+          state.pages = action.payload.pages
+          state.loading = false
+            // console.log('trending movies', state.trendingMovies)
         })
         .addCase(fetchTrendingMovies.rejected, (state, action) => {
           state.loading = false;

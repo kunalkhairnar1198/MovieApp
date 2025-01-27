@@ -7,12 +7,18 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 
 //movies detail url api 
 // https://api.themoviedb.org/3/movie/539972?language=en-US
+// https://api.themoviedb.org/3/trending/movie/day?id=${}?api_key
 
 export const image500 =path=>path?`https://image.tmdb.org/t/p/w500/${path}`:null
 
 const trendingMoviesEndpoint= `${BASE_URL}/trending/movie/day?api_key=${API_KEY}`
 const popularMoviesEndpoint = `${BASE_URL}/movie/popular?api_key=${API_KEY}` 
 
+
+// trending movies page
+// https://api.themoviedb.org/3/trending/movie/day?api_key=ee685f440549ded82e3e87a8eed2f321&page=2
+
+const trendingMoviesPagesEndpoint= pages =>`${BASE_URL}/trending/movie/day?api_key=${API_KEY}&page=${pages}`
 const moviesDetailsEndpoint =id => `${BASE_URL}/movie/${id}?api_key=${API_KEY}`
 const searchMovieEndpoint = params => `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${params}`
 
@@ -21,12 +27,21 @@ const searchMovieEndpoint = params => `${BASE_URL}/search/movie?api_key=${API_KE
 // const searchMoviesEndpoint=`${BASE_URL}/search/movie?api_key=${API_KEY}`
 
 
+// export const fetchPagesTrendingMovies =()=>{
+//     async(pages)=>{
+//         const response = await axios.get(trendingMoviesPagesEndpoint)
+//         console.log(response.data.results)
+//         return response.data.results
+//     }
+// }
+
 //Fetching all the trending movies
 export const fetchTrendingMovies = createAsyncThunk('movies/fetchTrendingMovies',
-    async()=>{
-        const response = await axios.get(trendingMoviesEndpoint);
+    async(pages)=>{
+        const response = await axios.get(trendingMoviesPagesEndpoint(pages));
         // console.log('Data fetched:', response.data);
-        return response.data.results;
+        return { movies: response.data.results, pages };    
+
     }
 
 );

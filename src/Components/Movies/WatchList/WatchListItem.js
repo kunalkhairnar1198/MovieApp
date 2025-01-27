@@ -3,11 +3,11 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import Card from '../../UI/Card';
 import Button from '../../UI/Button';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import {  image500 } from '../../../Store/Features/Actions/movies-actions';
 
 const WatchListItem = ({  originalTitle, overview, posterPath, voteAverage, releaseDate }) => {
-  
+
 
     return (
       <Card>
@@ -32,10 +32,10 @@ const WatchListItem = ({  originalTitle, overview, posterPath, voteAverage, rele
             </View>
             <View style={styles.buttonSection}>
               <Button onPress={() => console.log('Favorite clicked')}>
-                <FontAwesome name="bookmark-o" size={30} color="white" />
+                <Fontisto name="favorite" size={25} color='white' />
               </Button>
               <Button onPress={() => console.log('Heart clicked')}>
-                <AntDesign name="hearto" size={30} color="red" />
+                <AntDesign name="heart" size={25} color="white" />
               </Button>
             </View>
           </View>
@@ -45,6 +45,7 @@ const WatchListItem = ({  originalTitle, overview, posterPath, voteAverage, rele
 }
 const styles = StyleSheet.create({
     container: {
+      flex:1,
         flexDirection: 'row',
         alignItems: 'center',
         marginVertical: 10,

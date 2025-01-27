@@ -4,13 +4,17 @@ import Profilescreen from '../../Screens/Profilescreen';
 import Favoritescreen from '../../Screens/Favoritescreen';
 import {StyleSheet, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import WatchList from '../../Components/Movies/WatchList/WatchList';
 import HomeStackNav from '../HomeNavigators/HomeStackNav';
 import WatchlistScreen from '../../Screens/WatchlistScreen';
+import { useSelector } from 'react-redux';
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+  const {logedInUser} = useSelector(state => state.auth)
+
+
+  console.log(logedInUser)
   return (
     <Tab.Navigator
       initialRouteName="HomestackNav"
@@ -23,7 +27,7 @@ const TabNavigator = () => {
         name="HomestackNav"
         component={HomeStackNav}
         options={{
-          title: 'Movies',
+          title: logedInUser ? `Hello @${logedInUser.username}` : 'Movies',
           animation: 'fade',
           headerStyle: {
             backgroundColor: '#c24d4d',

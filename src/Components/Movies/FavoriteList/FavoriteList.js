@@ -9,7 +9,7 @@ import Loader from '../../UI/Loader';
 const FavoriteList = () => {
   const dispatch = useDispatch();
   const { favoriteMovieList = [], loading, error } = useSelector((state) => state.movies);
-  console.log('movieswatchlist compo', favoriteMovieList)
+  console.log('fav compo', favoriteMovieList)
   
   if (loading) {
     return (
@@ -28,8 +28,7 @@ const FavoriteList = () => {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView>
+    <View style={styles.container}>
       <VirtualizedList
         data={favoriteMovieList}
         renderItem={({ item }) => (
@@ -50,12 +49,17 @@ const FavoriteList = () => {
           </View>
         }
       />
-      </SafeAreaView>
-    </SafeAreaProvider>
+      </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor:'#851f1f',
+    paddingHorizontal:10,
+    paddingVertical:10
+  },
   errorContainer: {
     flex: 1,
     justifyContent: 'center',

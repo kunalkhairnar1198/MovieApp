@@ -28,8 +28,7 @@ const WatchList = () => {
   }
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView>
+      <View style={styles.container}>
       <VirtualizedList
         data={movieWatchList}
         renderItem={({ item }) => (
@@ -50,12 +49,17 @@ const WatchList = () => {
           </View>
         }
       />
-      </SafeAreaView>
-    </SafeAreaProvider>
+      </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container:{
+    flex:1,
+    backgroundColor:'#851f1f',
+    paddingHorizontal:10,
+    paddingVertical:10
+  },
   errorContainer: {
     flex: 1,
     justifyContent: 'center',

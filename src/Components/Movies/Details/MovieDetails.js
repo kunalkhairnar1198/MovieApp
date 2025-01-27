@@ -13,6 +13,9 @@ import {
 } from '../../../Store/Features/Actions/movies-actions';
 import {useDispatch, useSelector} from 'react-redux';
 import Loader from '../../UI/Loader';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import Button from '../../UI/Button';
 
 const MovieDetails = ({route, navigation}) => {
   const {item} = route.params;
@@ -81,6 +84,14 @@ const MovieDetails = ({route, navigation}) => {
                   {moviesDetailList.original_language.toUpperCase()}
                 </Text>
               </View>
+              <View style={styles.buttonSection}>
+              <Button onPress={() => console.log('Favorite clicked')}>
+                <Fontisto name="favorite" size={35} color='red' />
+              </Button>
+              <Button onPress={() => console.log('Heart clicked')}>
+                <AntDesign name="heart" size={35} color="red" />
+              </Button>
+            </View>
             </View>
           </ScrollView>
         </View>
@@ -187,6 +198,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000000',
     marginBottom: 8,
+  },
+  buttonSection: {
+    flexDirection: 'row',
+    justifyContent:'flex-end',
+    gap: 15,
   },
 });
 

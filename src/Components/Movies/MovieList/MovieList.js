@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -8,91 +8,87 @@ import {
   FlatList,
   TouchableOpacity,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { addWatchListToAsyncStorage,  fetchMoviesDetails,  fetchPopularMovies,  image500 } from '../../../Store/Features/Actions/movies-actions';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  fetchMoviesDetails,
+  fetchPopularMovies,
+  image500,
+} from '../../../Store/Features/Actions/movies-actions';
 import Button from '../../UI/Button';
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import Fontisto from 'react-native-vector-icons/Fontisto'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import Loader from '../../UI/Loader';
-import { moviesActions } from '../../../Store/Features/Movies-slice/movies-slice';
+import {moviesActions} from '../../../Store/Features/Movies-slice/movies-slice';
 
 const MovieList = ({navigation}) => {
   const dispatch = useDispatch();
-  const [wathchMovies, setWatchMovies] = useState([])
-  const { popularMovies, loading, error } = useSelector((state) => state.movies);
+
+  const {popularMovies, movieWatchList,  loading, error} = useSelector(state => state.movies);
 
 
 
   useEffect(() => {
-
-     dispatch(fetchPopularMovies());
-
+    dispatch(fetchPopularMovies());
   }, [dispatch]);
 
-
-
-  const onFavoriteSaveHandler =useCallback((item)=>{
-    dispatch(moviesActions.addMoviesToFavoriteList(item))
+  const onFavoriteSaveHandler = useCallback(item => {
+    dispatch(moviesActions.addMoviesToFavoriteList(item));
     // dispatch(moviesActions.clearWathlistItem())
-  },[])
+  }, []);
 
-  const onWatchlistSaveHandler =useCallback((item)=>{
-    // console.log('item', item)
-    dispatch(moviesActions.addMoviesToWatchList(item))
-  },[dispatch])
+  const onWatchlistSaveHandler = useCallback(
+    item => {
+      // console.log('item', item)
+      dispatch(moviesActions.addMoviesToWatchList(item));
+    },
+    [dispatch],
+  );
 
-  const switchToDetailPageHandler =(item)=>{
-    navigation.navigate('Moviedetails', { item })
-    console.log(item.id)
-    dispatch(fetchMoviesDetails(item.id))
-  }
+  const switchToDetailPageHandler = item => {
+    navigation.navigate('Moviedetails', {item});
+    console.log(item.id);
+    dispatch(fetchMoviesDetails(item.id));
+  };
 
-  const { width, height } = Dimensions.get('window');
+  const {width, height} = Dimensions.get('window');
 
-  const renderPopularMoviesCard = ({ item }) => {
+  const renderPopularMoviesCard = ({item}) => {
     return (
-      <TouchableOpacity 
-      onPress={()=>switchToDetailPageHandler(item)}
-      >
       <View
         style={[
           styles.cardContainer,
-          { width: width * 0.4, height: height * 0.3 }, 
-        ]}
-      >
+          {width: width * 0.4, height: height * 0.3},
+        ]}>
         <ImageBackground
-          source={{ uri: image500(item.poster_path) }}
+          source={{uri: image500(item.poster_path)}}
           style={styles.imageBackground}
-          imageStyle={styles.imageStyle}
-        >
-          <View style={styles.textContainer}>
-            <Text style={styles.movieTitle}>{item.title}</Text>
-            <View style={styles.bottomSection}>
-              <Text style={styles.movieRating}>
-                IMDb: {item.vote_average.toFixed(1)}
-              </Text>
-              <Text style={styles.movieTiming}>{'2h 30m'}</Text>
+          imageStyle={styles.imageStyle}>
+          <TouchableOpacity onPress={() => switchToDetailPageHandler(item)}>
+            <View style={styles.textContainer}>
+              <Text style={styles.movieTitle}>{item.title}</Text>
+              <View style={styles.bottomSection}>
+                <Text style={styles.movieRating}>
+                  IMDb: {item.vote_average.toFixed(1)}
+                </Text>
+                <Text style={styles.movieTiming}>{'2h 30m'}</Text>
+              </View>
             </View>
-          </View>
+          </TouchableOpacity>
           <View style={styles.buttonSection}>
-            <Button onPress={()=>onWatchlistSaveHandler(item)}>
-              <Fontisto name="favorite" size={30} color='white' />
+            <Button onPress={() => onWatchlistSaveHandler(item)}>
+              <Fontisto name="favorite" size={25} color='white' />
             </Button>
-            <Button onPress={()=>onFavoriteSaveHandler(item)}>
-              <AntDesign name="hearto" size={20} color='white' />
+            <Button onPress={() => onFavoriteSaveHandler(item)}>
+              <AntDesign name="heart" size={25} color="white" />
             </Button>
           </View>
         </ImageBackground>
       </View>
-      </TouchableOpacity>
-
     );
   };
 
   if (loading) {
-    return (
-      <Loader/>
-    );
+    return <Loader />;
   }
 
   if (error) {
@@ -115,7 +111,7 @@ const MovieList = ({navigation}) => {
     <View style={styles.container}>
       <FlatList
         data={popularMovies}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={item => item.id.toString()}
         renderItem={renderPopularMoviesCard}
         horizontal
         pagingEnabled
@@ -130,7 +126,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'flex-start',
-    paddingBottom:15
+    paddingBottom: 15,
   },
   flatListContent: {
     paddingHorizontal: 10,
@@ -163,10 +159,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  buttonSection:{
-     flexDirection:'row',
-     alignItems:'flex-end',
-     justifyContent:'space-between',
+  buttonSection: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    gap: 10,
   },
   movieRating: {
     fontSize: 14,
