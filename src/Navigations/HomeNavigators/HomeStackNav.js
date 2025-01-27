@@ -3,16 +3,38 @@ import React from 'react';
 import Homescreen from '../../Screens/Homescreen';
 import MovieDetails from '../../Components/Movies/Details/MovieDetails';
 import SearchBar from '../../Components/SearchBar/SearchBar';
+import { useSelector } from 'react-redux';
 
 const Stack = createStackNavigator();
 
 const HomeStackNav = () => {
+  const {logedInUser} = useSelector(state => state.auth)
+  
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
         name="Home"
         component={Homescreen}
-        options={{headerShown: false}}
+        options={{
+        title: logedInUser ? `Hello @${logedInUser.username}` : 'Movies',
+        animation: 'fade',
+       cardStyle:{
+        backgroundColor:'#851f1f'
+       },
+      animationTypeForReplace:'pop',
+       headerStyle: {
+          backgroundColor: '#c24d4d',
+          height: 60,
+          borderBottomRightRadius: 45,
+          borderBottomLeftRadius: 45,
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+          marginTop: 0,
+          marginHorizontal: 20,
+          fontSize: 30,
+          fontWeight: 'bold'
+          }}}
       />
       <Stack.Screen
         name="Moviedetails"

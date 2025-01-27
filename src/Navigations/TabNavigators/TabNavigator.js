@@ -27,21 +27,7 @@ const TabNavigator = () => {
         name="HomestackNav"
         component={HomeStackNav}
         options={{
-          title: logedInUser ? `Hello @${logedInUser.username}` : 'Movies',
-          animation: 'fade',
-          headerStyle: {
-            backgroundColor: '#c24d4d',
-            height: 60,
-            borderBottomRightRadius: 45,
-            borderBottomLeftRadius: 45,
-          },
-          headerTintColor: '#fff',
-          headerTitleStyle: {
-            marginTop: 0,
-            marginHorizontal: 20,
-            fontSize: 30,
-            fontWeight: 'bold',
-          },
+          headerShown:false,          
           tabBarIcon: ({focused}) => (
             <Icon name="home" size={30} color={focused ? 'red' : '#000'} />
           ),
