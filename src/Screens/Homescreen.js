@@ -46,7 +46,7 @@ const Homescreen = ({navigation}) => {
       <View style={styles.titleContent}>
         <Text style={styles.title}>Trending</Text>
         <View style={styles.section}>
-             <TrendingMovies/>
+             <TrendingMovies navigation={navigation}/>
       </View>
       </View>
       

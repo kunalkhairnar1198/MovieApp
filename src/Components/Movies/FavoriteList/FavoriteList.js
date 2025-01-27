@@ -6,7 +6,7 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import WatchListItem from '../WatchList/WatchListItem';
 import Loader from '../../UI/Loader';
 
-const FavoriteList = () => {
+const FavoriteList = ({navigation}) => {
   const dispatch = useDispatch();
   const { favoriteMovieList = [], loading, error } = useSelector((state) => state.movies);
   console.log('fav compo', favoriteMovieList)
@@ -33,6 +33,8 @@ const FavoriteList = () => {
         data={favoriteMovieList}
         renderItem={({ item }) => (
           <WatchListItem
+            navigation={navigation}
+            id={item.id}
             originalTitle={item.original_title}
             overview={item.overview}
             posterPath={item.poster_path}

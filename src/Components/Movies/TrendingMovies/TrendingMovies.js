@@ -5,13 +5,14 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTrendingMovies } from '../../../Store/Features/Actions/movies-actions';
+import { fetchMoviesDetails, fetchTrendingMovies, image500 } from '../../../Store/Features/Actions/movies-actions';
 import Loader from '../../UI/Loader';
 
-const TrendingMovies = () => {
+const TrendingMovies = ({navigation}) => {
   const dispatch = useDispatch();
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [Refreshing, setRefreshing] = useState(false);
@@ -37,6 +38,12 @@ const TrendingMovies = () => {
     dispatch(fetchTrendingMovies(1)).then(() => setRefreshing(false));
   };
 
+  const switchToTrendingMovieDetailsScreen =(item)=>{
+    navigation.navigate('Moviedetails', {item});
+    // console.log('detail',item.id)
+     dispatch(fetchMoviesDetails(item.id));
+  }
+
   const { width, height } = Dimensions.get('window');
 
   const renderMovieCard = ({ item }) => (
@@ -47,10 +54,11 @@ const TrendingMovies = () => {
       ]}
     >
       <ImageBackground
-        source={{ uri: `https://image.tmdb.org/t/p/w500/${item.poster_path}` }}
+        source={{ uri: image500(item.poster_path) }}
         style={styles.imageBackground}
         imageStyle={styles.imageStyle}
       >
+        <TouchableOpacity onPress={()=> switchToTrendingMovieDetailsScreen(item)}  >
         <View style={styles.overlay} />
         <View style={styles.textContainer}>
           <Text style={styles.movieTitle}>{item.title}</Text>
@@ -64,6 +72,7 @@ const TrendingMovies = () => {
             <Text style={styles.movieTiming}>{"2h 30m"}</Text>
           </View>
         </View>
+        </TouchableOpacity>
       </ImageBackground>
     </View>
   );

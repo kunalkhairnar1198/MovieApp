@@ -7,17 +7,14 @@ import {
   Text,
   View,
 } from 'react-native';
-import {
-  fetchMoviesDetails,
-  image500,
-} from '../../../Store/Features/Actions/movies-actions';
 import {useDispatch, useSelector} from 'react-redux';
-import Loader from '../../UI/Loader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Button from '../../UI/Button';
+import { fetchMoviesDetails, image500 } from '../../../Store/Features/Actions/movies-actions';
+import Loader from '../../UI/Loader';
 
-const MovieDetails = ({route, navigation}) => {
+const WatchDetail = ({route, navigation}) => {
   const {item} = route.params;
   console.log('--->',item)
   const dispatch = useDispatch();
@@ -207,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MovieDetails;
+export default WatchDetail;
