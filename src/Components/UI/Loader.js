@@ -7,7 +7,7 @@ const Loader = () => {
     <SafeAreaProvider>
         <View style={styles.loaderContainer}>
             <ActivityIndicator size="large" color="#c0a914" />
-            <Text style={styles.loaderText}>Loading Watchlist...</Text>
+            <Text style={styles.loaderText}>Loading....</Text>
         </View>
   </SafeAreaProvider>
   )

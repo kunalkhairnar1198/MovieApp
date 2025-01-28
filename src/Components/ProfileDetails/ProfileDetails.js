@@ -5,6 +5,7 @@ import { AuthActions } from '../../Store/Features/Auth-slice/auth-slice';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Zocial';
 import Feather from 'react-native-vector-icons/Feather';
+import { moviesActions } from '../../Store/Features/Movies-slice/movies-slice';
 
 const { width } = Dimensions.get('window'); 
 
@@ -39,6 +40,12 @@ const ProfileDetails = () => {
           <Text style={styles.phone}>{logedInUser?.phoneNumber || 'N/A'}</Text>
         </View>
       </View>
+      <TouchableOpacity
+        style={styles.navButton}
+        onPress={()=> dispatch(moviesActions.clearWathlistItem())}
+      >
+        <Text style={styles.navButtonText}>Clear Watchlist and Fav list </Text>
+      </TouchableOpacity>
       <TouchableOpacity
         style={styles.navButton}
         onPress={() => navigation.navigate('tandc')}

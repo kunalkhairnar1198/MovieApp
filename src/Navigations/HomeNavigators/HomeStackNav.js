@@ -1,5 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Homescreen from '../../Screens/Homescreen';
 import MovieDetails from '../../Components/Movies/Details/MovieDetails';
 import SearchBar from '../../Components/SearchBar/SearchBar';
@@ -7,8 +7,16 @@ import { useSelector } from 'react-redux';
 
 const Stack = createStackNavigator();
 
-const HomeStackNav = () => {
+const HomeStackNav = ({navigation}) => {
   const {logedInUser} = useSelector(state => state.auth)
+
+   useEffect(() => {
+      const hideHeader = navigation.getParent()?.setOptions({headerShown: false});
+     
+      return () => {
+        navigation.getParent()?.setOptions({headerShown: true});
+      };
+    }, []);
   
   return (
     <Stack.Navigator initialRouteName="Home">

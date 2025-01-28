@@ -56,6 +56,7 @@ const moviesSlice = createSlice({
       clearWathlistItem(state, action){
         state.movieWatchList=[]
         state.favoriteMovieList=[]
+        state.trendingMovies=[]
         state.FavRead = 0;
         state.watchRead = 0
       }
@@ -81,7 +82,7 @@ const moviesSlice = createSlice({
               ...state.trendingMovies,
               ...action.payload.movies
             ]
-            console.log('merge', state.trendingMovies)
+            // console.log('merge', state.trendingMovies)
           }
           state.pages = action.payload.pages
           state.loading = false

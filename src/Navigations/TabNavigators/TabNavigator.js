@@ -17,7 +17,7 @@ const TabNavigator = () => {
   console.log(logedInUser)
   return (
     <Tab.Navigator
-      initialRouteName="HomestackNav"
+      // initialRouteName="HomestackNav"
       screenOptions={{
         tabBarActiveTintColor: '#c24d4d',
         tabBarHideOnKeyboard:true,
