@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  VirtualizedList,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMoviesDetails, fetchTrendingMovies, image500 } from '../../../Store/Features/Actions/movies-actions';
@@ -15,7 +16,6 @@ import Loader from '../../UI/Loader';
 const TrendingMovies = ({navigation}) => {
   const dispatch = useDispatch();
   const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const [Refreshing, setRefreshing] = useState(false);
 
   const { trendingMovies, pages, loading, error } = useSelector((state) => state.movies);
 
@@ -38,11 +38,6 @@ const TrendingMovies = ({navigation}) => {
     }
   };
 
-  const onTrendingMoviesRefresh = async() => {
-    setRefreshing(true);
-    await dispatch(fetchTrendingMovies(1))
-    await setRefreshing(false)
-  };
 
   const switchToTrendingMovieDetailsScreen =(item)=>{
     navigation.navigate('Moviedetails', {item});
@@ -52,36 +47,39 @@ const TrendingMovies = ({navigation}) => {
 
   const { width, height } = Dimensions.get('window');
 
-  const renderMovieCard = ({ item }) => (
-    <View
-      style={[
-        styles.cardContainer,
-        { width: width * 0.8, height: height * 0.4 },
-      ]}
-    >
-      <ImageBackground
-        source={{ uri: image500(item.poster_path) }}
-        style={styles.imageBackground}
-        resizeMode='stretch'
-        imageStyle={styles.imageStyle}
+  const renderMovieCard = useMemo(
+    () => ({ item }) => (
+      <View
+        style={[
+          styles.cardContainer,
+          { width: width * 0.8, height: height * 0.4 },
+        ]}
       >
-        <TouchableOpacity onPress={()=> switchToTrendingMovieDetailsScreen(item)}  >
-        <View style={styles.overlay} />
-        <View style={styles.textContainer}>
-          <Text style={styles.movieTitle}>{item.title}</Text>
-          <Text style={styles.movieDescription} numberOfLines={3}>
-            {item.overview}
-          </Text>
-          <View style={styles.bottomSection}>
-            <Text style={styles.movieRating}>
-              IMDb: {item.vote_average.toFixed(1)}
-            </Text>
-            <Text style={styles.movieTiming}>{"2h 30m"}</Text>
-          </View>
-        </View>
-        </TouchableOpacity>
-      </ImageBackground>
-    </View>
+        <ImageBackground
+          source={{ uri: image500(item.poster_path) }}
+          style={styles.imageBackground}
+          resizeMode="stretch"
+          imageStyle={styles.imageStyle}
+        >
+          <TouchableOpacity onPress={() => switchToTrendingMovieDetailsScreen(item)}>
+            <View style={styles.overlay} />
+            <View style={styles.textContainer}>
+              <Text style={styles.movieTitle}>{item.title}</Text>
+              <Text style={styles.movieDescription} numberOfLines={3}>
+                {item.overview}
+              </Text>
+              <View style={styles.bottomSection}>
+                <Text style={styles.movieRating}>
+                  IMDb: {item.vote_average.toFixed(1)}
+                </Text>
+                <Text style={styles.movieTiming}>{"2h 30m"}</Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </ImageBackground>
+      </View>
+    ),
+    [width, height, navigation] 
   );
 
   if (loading && pages === 1) {
@@ -94,22 +92,21 @@ const TrendingMovies = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={trendingMovies}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderMovieCard}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.flatListContent}
-        refreshing={Refreshing}
-        onRefresh={onTrendingMoviesRefresh}
-        onEndReached={fetchNextPage} 
-        onEndReachedThreshold={0.10} 
-        ListFooterComponent={
-          isFetchingMore ? <Loader /> : null 
-        }
-      />
+      <VirtualizedList
+      data={trendingMovies}
+      initialNumToRender={5} 
+      getItem={(data, index) => data[index]}
+      getItemCount={(data) => data.length}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={renderMovieCard}
+      horizontal
+      pagingEnabled
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.flatListContent}
+      onEndReached={fetchNextPage}
+      onEndReachedThreshold={0.1}
+      ListFooterComponent={isFetchingMore ? <Loader /> : null}
+    />
     </View>
   );
 };
