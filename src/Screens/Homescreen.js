@@ -6,7 +6,6 @@ import FavoriteList from '../Components/Movies/FavoriteList/FavoriteList';
 import MovieList from '../Components/Movies/MovieList/MovieList';
 import { useDispatch } from 'react-redux';
 import { fetchPopularMovies, fetchTrendingMovies } from '../Store/Features/Actions/movies-actions';
-import SearchBar from '../Components/SearchBar/SearchBar';
 import CustomSearchBar from '../Components/SearchBar/CustomeSearchBar';
 
 const Homescreen = ({navigation}) => {
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
   title:{
     fontSize:25,
     fontWeight:'bold',
-    color:'black',
+    color:'white',
     marginBottom:15
   },
   section:{

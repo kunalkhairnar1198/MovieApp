@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -19,23 +19,29 @@ const TrendingMovies = ({navigation}) => {
 
   const { trendingMovies, pages, loading, error } = useSelector((state) => state.movies);
 
-  console.log(pages, trendingMovies)
+  // console.log(pages, trendingMovies)
 
   useEffect(() => {
     dispatch(fetchTrendingMovies(1));
   }, [dispatch]);
 
-  const fetchNextPage = () => {
-    if (isFetchingMore || loading) return; 
-    setIsFetchingMore(true);
-    dispatch(fetchTrendingMovies(pages + 1))
-      .then(() => setIsFetchingMore(false))
-      .catch(() => setIsFetchingMore(false));
+
+  const fetchNextPage = async() => {
+    try {
+      if (isFetchingMore || loading) return; 
+      setIsFetchingMore(true);
+    
+      await dispatch(fetchTrendingMovies(pages + 1 ))
+      await setIsFetchingMore(false)
+    } catch (error) {
+        await  setIsFetchingMore(false)
+    }
   };
 
-  const onTrendingMoviesRefresh = () => {
+  const onTrendingMoviesRefresh = async() => {
     setRefreshing(true);
-    dispatch(fetchTrendingMovies(1)).then(() => setRefreshing(false));
+    await dispatch(fetchTrendingMovies(1))
+    await setRefreshing(false)
   };
 
   const switchToTrendingMovieDetailsScreen =(item)=>{
@@ -98,7 +104,7 @@ const TrendingMovies = ({navigation}) => {
         refreshing={Refreshing}
         onRefresh={onTrendingMoviesRefresh}
         onEndReached={fetchNextPage} 
-        onEndReachedThreshold={0.5} 
+        onEndReachedThreshold={0.10} 
         ListFooterComponent={
           isFetchingMore ? <Loader /> : null 
         }

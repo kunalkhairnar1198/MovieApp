@@ -39,7 +39,7 @@ const TabNavigator = () => {
         name="Favorite"
         component={Favoritescreen}
         options={{
-          tabBarBadge: FavRead,
+          tabBarBadge: FavRead > 0 ? FavRead : undefined,
           title: 'Favorite',
           animation: 'fade',
           headerStyle: {
@@ -64,7 +64,7 @@ const TabNavigator = () => {
         name="WatchList"
         component={WatchlistScreen}
         options={{
-          tabBarBadge: watchRead,
+          tabBarBadge: watchRead > 0 ? watchRead : undefined,
           title: 'WatchList',
           animation: 'fade',
           headerStyle: {

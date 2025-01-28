@@ -23,7 +23,7 @@ import {moviesActions} from '../../../Store/Features/Movies-slice/movies-slice';
 const MovieList = ({navigation}) => {
   const dispatch = useDispatch();
 
-  const {popularMovies, movieWatchList,  loading, error} = useSelector(state => state.movies);
+  const {popularMovies,   loading, error} = useSelector(state => state.movies);
 
 
 
@@ -205,4 +205,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MovieList;
+export default React.memo(MovieList);

@@ -33,8 +33,8 @@ const moviesSlice = createSlice({
        removeWatchlist(state, action){
         const indexToRemove = state.movieWatchList.findIndex(obj => obj.id === action.payload.id)
         state.movieWatchList.splice(indexToRemove ,1 )
-        console.log(state.movieWatchList)
-          console.log(action.payload)
+        // console.log(state.movieWatchList)
+        //   console.log(action.payload)
        },
        addMoviesToFavoriteList(state, action){
         const existingMovie = state.favoriteMovieList.find((item) => item.id === action.payload.id);
@@ -49,13 +49,10 @@ const moviesSlice = createSlice({
        removeToFavList(state, action){
         const indexToRemove = state.favoriteMovieList.findIndex(obj => obj.id === action.payload.id)
         state.favoriteMovieList.splice(indexToRemove ,1 )
-        console.log(state.favoriteMovieList)
-          console.log(action.payload)
+        // console.log(state.favoriteMovieList)
+        //   console.log(action.payload)
        },
 
-      removeWathListItem(state, action){
-
-      },
       clearWathlistItem(state, action){
         state.movieWatchList=[]
         state.favoriteMovieList=[]
@@ -73,15 +70,18 @@ const moviesSlice = createSlice({
         })
         .addCase(fetchTrendingMovies.fulfilled, (state, action) => {
           state.loading = false;
-          state.trendingMovies = action.payload;
+          // state.trendingMovies = action.payload;
+          // console.log(action.payload)
           // state.trendingMovies =[...state.trendingMovies, action.payload]
-          if(action.payload.pages === 1){
+          if(action.payload.pages == 1){
             state.trendingMovies = action.payload.movies
           }else{
+            state.loading = false
             state.trendingMovies=[
               ...state.trendingMovies,
               ...action.payload.movies
             ]
+            console.log('merge', state.trendingMovies)
           }
           state.pages = action.payload.pages
           state.loading = false

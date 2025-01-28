@@ -37,9 +37,9 @@ const searchMovieEndpoint = params => `${BASE_URL}/search/movie?api_key=${API_KE
 
 //Fetching all the trending movies
 export const fetchTrendingMovies = createAsyncThunk('movies/fetchTrendingMovies',
-    async(pages)=>{
+    async(pages = 1)=>{
         const response = await axios.get(trendingMoviesPagesEndpoint(pages));
-        // console.log('Data fetched:', response.data);
+        // console.log('Data fetched:', response.data, pages);
         return { movies: response.data.results, pages };    
 
     }
