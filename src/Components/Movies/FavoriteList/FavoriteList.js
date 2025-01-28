@@ -9,7 +9,7 @@ import Loader from '../../UI/Loader';
 const FavoriteList = ({navigation}) => {
   const dispatch = useDispatch();
   const { favoriteMovieList = [], loading, error } = useSelector((state) => state.movies);
-  console.log('fav compo', favoriteMovieList)
+  // console.log('fav compo', favoriteMovieList)
   
   if (loading) {
     return (
@@ -34,12 +34,13 @@ const FavoriteList = ({navigation}) => {
         renderItem={({ item }) => (
           <WatchListItem
             navigation={navigation}
-            id={item.id}
-            originalTitle={item.original_title}
-            overview={item.overview}
-            posterPath={item.poster_path}
-            voteAverage={item.vote_average}
-            releaseDate={item.release_date}
+            item={item}
+            // id={item.id}
+            // originalTitle={item.original_title}
+            // overview={item.overview}
+            // posterPath={item.poster_path}
+            // voteAverage={item.vote_average}
+            // releaseDate={item.release_date}
           />
         )}
         keyExtractor={(item, index) => (item?.id ? item.id.toString() : index.toString())}

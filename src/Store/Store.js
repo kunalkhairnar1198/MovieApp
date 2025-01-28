@@ -10,7 +10,7 @@ import { thunk } from "redux-thunk";
 const authPersistConfig = {
   key: "auth",
   storage,
-  whitelist: ["token", "logedInUser"], 
+  whitelist: ["token", "logedInUser",'registeredUsers'], 
 };
 
 const moviesPersistConfig = {

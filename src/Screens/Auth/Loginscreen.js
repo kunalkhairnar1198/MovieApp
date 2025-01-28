@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -8,88 +8,101 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { AuthActions } from '../../Store/Features/Auth-slice/auth-slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { UiActions } from '../../Store/Features/Ui-slice/ui-slice';
+import Loader from '../../Components/UI/Loader';
 
 const Loginscreen = () => {
-    const navigation = useNavigation()
-    const [email, setEmail] = useState('')
-    const [password, setPassword]= useState('')
-    const {user, logedInUser} = useSelector(state => state.auth)
-    const errorMessage = useSelector(state => state.ui.validText)
-    const dispatch = useDispatch()
+  const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { registeredUsers, logedInUser, loading } = useSelector(
+    (state) => state.auth
+  );
+  const errorMessage = useSelector((state) => state.ui.validText);
+  const dispatch = useDispatch();
 
+  console.log(registeredUsers)
 
-    const switchSingupHanlder =()=>{
-        navigation.navigate('Signup')   
+  const switchSingupHanlder = () => {
+    navigation.navigate("Signup");
+  };
+
+  const SingInHandler = () => {
+    const loginUser = {
+      email,
+      password,
+    };
+
+    dispatch(AuthActions.Loaduser(true)); 
+
+    const foundUser = registeredUsers.find(
+      (user) =>
+        user.email.toLowerCase() === loginUser.email.toLowerCase() &&
+        user.password === loginUser.password
+    );
+
+    if (foundUser) {
+      dispatch(AuthActions.LoginUser(loginUser));
+      // dispatch(UiActions.isErrorMessage("Login Successful"));
+    } else {
+      dispatch(UiActions.isErrorMessage("Invalid credentials"));
+      dispatch(AuthActions.Loaduser(false)); 
     }
+  };
 
-    useEffect(()=>{
-        console.log('users all',logedInUser)
-        console.log('login user', user)
-    },[])
-
-    const SingInHandler =()=>{
-        const loginUser = {
-            email,
-            password,
-        }
-
-        if(loginUser.email.toLowerCase() === logedInUser.email.toLowerCase()){
-            dispatch(AuthActions.LoginUser(loginUser))
-            dispatch(UiActions.isErrorMessage('Login Succesfull '))
-            
-        }else{
-            dispatch(UiActions.isErrorMessage('user is not found'))
-
-        }
-
-
-
-    }
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ImageBackground
-        style={styles.image}
-        resizeMethod="cover"
-        source={require('../../assets/movietitleicon.png')}>
-        <Text style={styles.title}>Login</Text>
-        <Text style={`!errorMessage ?  ${styles.alertText} : ''`}>{errorMessage}</Text>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container}>
+        <ImageBackground
+          style={styles.image}
+          resizeMethod="cover"
+          source={require("../../assets/movietitleicon.png")}
+        >
+          <Text style={styles.title}>Login</Text>
+          {<Text style={styles.alertText}>{errorMessage}</Text>}
 
-        <View style={styles.inputele}>
-          <Text style={styles.label}>Email</Text>
-          <TextInput
-            inputMode="email"
-            placeholder="Enter Email"
-            keyboardType="email-address"
-            onChangeText={setEmail}
-            style={styles.input}
-          />
-        </View>
-        <View style={styles.inputele}>
-          <Text style={styles.label}>Password</Text>
-          <TextInput
-            placeholder="Enter Password"
-            secureTextEntry={true}
-            inputMode="password-new"
-            onChangeText={setPassword}
-            style={styles.input}
-          />
-        </View>
-       
-        <TouchableOpacity onPress={switchSingupHanlder}>
-          <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={SingInHandler}>
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-      </ImageBackground>
-    </SafeAreaView>
+          <View style={styles.inputele}>
+            <Text style={styles.label}>Email</Text>
+            <TextInput
+              inputMode="email"
+              placeholder="Enter Email"
+              keyboardType="email-address"
+              onChangeText={setEmail}
+              style={styles.input}
+            />
+          </View>
+          <View style={styles.inputele}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              placeholder="Enter Password"
+              secureTextEntry={true}
+              inputMode="password-new"
+              onChangeText={setPassword}
+              style={styles.input}
+            />
+          </View>
+
+          <TouchableOpacity onPress={switchSingupHanlder}>
+            <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={SingInHandler}>
+            <Text style={styles.buttonText}>
+              {loading ? "Loading..." : "Login"}
+            </Text>
+          </TouchableOpacity>
+        </ImageBackground>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

@@ -1,36 +1,64 @@
 import { createSlice } from "@reduxjs/toolkit";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-const authenticationDataState ={
-    logedInUser:[],
-        user:null,      
-        token:false,
-        loading:false,
-        error:null,
-}
-
-const authSlice = createSlice({
-    name:'auth',
-    initialState:authenticationDataState,
-    reducers:{                  
-        RegisterUser(state, action){
-            state.token = false
-            state.logedInUser =action.payload
-            console.log('register user',state.logedInUser)
-        },
-        LoginUser(state, action){
-                state.token = true
-                state.user = action.payload;
-                console.log('logedin user',state.logedInUser)
-        },
-        LogoutUser(state, action){
-                state.token = false
-                // state.user = null
-        },
-    }   
-})
+const authenticationDataState = {
+    registeredUsers: [], 
+    logedInUser: null, 
+    token: false,
+    loading: false,
+  };
+  
+  const authSlice = createSlice({
+    name: "auth",
+    initialState: authenticationDataState,
+    reducers: {
+      RegisterUser(state, action) {
+        const newUser = action.payload;
+        const existingUser = state.registeredUsers.find(
+          (user) => user.email.toLowerCase() === newUser.email.toLowerCase()
+        );
+  
+        if (!existingUser) {
+          state.registeredUsers.push(newUser); 
+          console.log("Registered users:", state.registeredUsers);
+        } else {
+          console.log("User with this email already exists");
+        }
+      },
+      LoginUser(state, action) {
+        const { email, password } = action.payload;
+  
+        const foundUser = state.registeredUsers.find(
+          (user) =>
+            user.email.toLowerCase() === email.toLowerCase() &&
+            user.password === password
+        );
+  
+        if (foundUser) {
+          state.token = true;
+          state.loading = false;
+          state.logedInUser = foundUser;
+          console.log("Logged-in user:", state.logedInUser);
+        } else {
+          state.token = false;
+          state.loading = false;
+          state.logedInUser = null;
+          console.log("Invalid credentials");
+        }
+      },
+      Loaduser(state, action) {
+        state.loading = action.payload;
+      },
+      LogoutUser(state) {
+        state.token = false;
+        state.loading = false;
+        state.logedInUser = null;
+      },
+    },
+  });
 
 export const AuthActions = authSlice.actions;
+export default authSlice.reducer
 
 
 // export const registerUser = (userData) => async(dispatch)=>{
@@ -72,5 +100,4 @@ export const AuthActions = authSlice.actions;
 // }
 
 
-export default authSlice.reducer
 

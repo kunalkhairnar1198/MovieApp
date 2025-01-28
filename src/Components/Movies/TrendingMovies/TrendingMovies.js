@@ -62,6 +62,7 @@ const TrendingMovies = ({navigation}) => {
       <ImageBackground
         source={{ uri: image500(item.poster_path) }}
         style={styles.imageBackground}
+        resizeMode='stretch'
         imageStyle={styles.imageStyle}
       >
         <TouchableOpacity onPress={()=> switchToTrendingMovieDetailsScreen(item)}  >

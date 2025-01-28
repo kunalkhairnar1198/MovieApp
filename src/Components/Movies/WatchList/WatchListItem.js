@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import { Image, StyleSheet, Text,   View } from 'react-native';
 import Card from '../../UI/Card';
 import Button from '../../UI/Button';
@@ -9,14 +9,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { moviesActions } from '../../../Store/Features/Movies-slice/movies-slice';
 import { useRoute } from '@react-navigation/native';
 
-const WatchListItem = ({ navigation, id, originalTitle, overview, posterPath, voteAverage, releaseDate }) => {
+const WatchListItem = ({ navigation, item }) => {
     const dispatch = useDispatch()
     const route = useRoute()
-    console.log(route)
+    // console.log(route)
 
     const switchToNavigateDetail=( item)=>{  
         navigation.navigate('WatchDetails',{item})
-        console.log(item.id)
+        // console.log(item.id)
        dispatch(fetchMoviesDetails(item.id))
     }
 
@@ -29,37 +29,54 @@ const WatchListItem = ({ navigation, id, originalTitle, overview, posterPath, vo
   // console.log(id)
       }
 
+      const onFavoriteSaveHandler = useCallback(item => {
+          dispatch(moviesActions.addMoviesToFavoriteList(item));
+          // dispatch(moviesActions.clearWathlistItem())
+        }, []);
+      
+      const onWatchlistSaveHandler = useCallback(
+        item => {
+          // console.log('item', item)
+          dispatch(moviesActions.addMoviesToWatchList(item));
+        },[dispatch]);
+
    
 
     return (
-      <Button onPress={()=>switchToNavigateDetail({  id, originalTitle, overview, posterPath, voteAverage, releaseDate })}>
+      <Button onPress={()=>switchToNavigateDetail(item)}>
       <Card>
         <View style={styles.container}>
           <Image
             style={styles.imageStyle}
-            source={{ uri: image500(posterPath) }}
+            source={{ uri: image500(item.poster_path) }}
             resizeMode="cover"
           />
           <View style={styles.textSection}>
             <Text style={styles.moviesTitle} numberOfLines={1}>
-              {originalTitle}
+              {item.original_title}
             </Text>
             <Text style={styles.moviesDescription} numberOfLines={5}>
-              {overview}
+              {item.overview}
             </Text>
             <View style={styles.bottomSection}>
-              <Text style={styles.movieDate}>Date: {releaseDate}</Text>
+              <Text style={styles.movieDate}>Date: {item.release_date}</Text>
               <Text style={styles.movieRating}>
-                IMDb rating: {voteAverage ? voteAverage.toFixed(1) : 'N/A'}
+                IMDb rating: {item.vote_average ? item.vote_average.toFixed(1) : 'N/A'}
               </Text>
             </View>
             <View style={styles.buttonSection}>
-              <Button style={{backgroundColor:'yellow', padding:5, borderRadius:10, marginBottom:5}} onPress={route.name == 'Watchlist' ? () => removeWatchlistItem({id}) : ()=>removeFavoriteList({id})}>
-                <Text style={styles.text}> + Remove Watchlist</Text> 
+              <Button style={{backgroundColor:'yellow', padding:5, borderRadius:10, marginBottom:5}} onPress={route.name == 'Watchlist' ? () => removeWatchlistItem(item.id) : ()=>removeFavoriteList(item.id)}>
+                <Text style={styles.text}>{route.name == 'Watchlist' ? ('+ Remove Watchlist') : ('+ Remove FavoriteList')}</Text> 
               </Button>
-              <Button onPress={() => console.log('Heart clicked')}>
+             
+              {route.name == 'Favoritelist' ? ( 
+              <Button onPress={()=>onWatchlistSaveHandler(item)}>
+                 <Fontisto name="favorite" size={25} color='white' />
+              </Button>): 
+              (<Button onPress={() => onFavoriteSaveHandler(item)}>
                 <AntDesign name="heart" size={25} color="white" />
               </Button>
+            )}
             </View>
           </View>
          

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {UiActions} from '../../Store/Features/Ui-slice/ui-slice';
 import { AuthActions} from '../../Store/Features/Auth-slice/auth-slice';
@@ -21,10 +21,10 @@ const Registerscreen = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const errorMessage = useSelector(state => state.ui.validText);
-  const {logedInUser} = useSelector(state => state.auth)
+  const {logedInUser, registeredUsers} = useSelector(state => state.auth)
   const dispatch = useDispatch();
 
-  // console.log('-----------',registredUsers);
+  console.log('-----------',registeredUsers);
 
   const swithchHandleTosignIn = () => {
     navigation.navigate('Login'); 
@@ -67,6 +67,7 @@ const Registerscreen = () => {
  
 
   return (
+    <SafeAreaProvider>
     <SafeAreaView style={styles.container}>
       <ImageBackground
         style={styles.image}
@@ -134,6 +135,7 @@ const Registerscreen = () => {
         </TouchableOpacity>
       </ImageBackground>
     </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 

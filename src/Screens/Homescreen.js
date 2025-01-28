@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from 'react'
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import TrendingMovies from '../Components/Movies/TrendingMovies/TrendingMovies'
-import WatchList from '../Components/Movies/WatchList/WatchList';
-import FavoriteList from '../Components/Movies/FavoriteList/FavoriteList';
 import MovieList from '../Components/Movies/MovieList/MovieList';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchPopularMovies, fetchTrendingMovies } from '../Store/Features/Actions/movies-actions';
 import CustomSearchBar from '../Components/SearchBar/CustomeSearchBar';
+import Homewatchlist from '../Components/HomeWatch/Homewatchlist';
+import { Screen } from '@react-navigation/elements';
 
 const Homescreen = ({navigation}) => {
-
+  const {movieWatchList} = useSelector(state => state.movies)
   const [refreshingScreen, setIsRefreshing] = useState(false)
   const dispatch =useDispatch()
 
@@ -50,9 +50,15 @@ const Homescreen = ({navigation}) => {
       </View>
       
       <View style={styles.titleContent}>
-         {/* <Text style={styles.title}>WatchList</Text> */}
-         <View>
-        {/* <WatchList/> */}
+           <View style={styles.sectionTitle}>
+             {movieWatchList.length > 0 && <Text style={styles.title}>WatchList</Text>}
+             {/* this navigation operations are implement for the nested deeply navigate root pages to sub tabs navigate in the screens in react native */}
+              <TouchableOpacity style={[styles.title, {color:'black'}]} onPress={()=>navigation.navigate('WatchList',{screen : 'Watchlist'})}>
+                 <Text style={{fontWeight:'bold', fontSize:20, marginVertical:10}} >See all</Text>  
+              </TouchableOpacity>
+        </View>
+        <View>
+        <Homewatchlist/>
       </View>
       </View>
      
@@ -76,13 +82,13 @@ const Homescreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,    
+    flex: 1,    
     padding: 10,
   },
   titleContent:{
     flex:1,
     marginTop:5,
-    alignContent:'flex-start',
+    // alignContent:'flex-start',
   },
   title:{
     fontSize:25,
@@ -90,7 +96,11 @@ const styles = StyleSheet.create({
     color:'white',
     marginBottom:15
   },
-  section:{
+  sectionTitle:{
+    flex:1,
+    flexDirection:'row',
+    alignItems:'flex-start',
+    justifyContent:'space-between'
   }
 });
 

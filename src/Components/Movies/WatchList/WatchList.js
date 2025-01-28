@@ -34,12 +34,13 @@ const WatchList = ({navigation}) => {
         renderItem={({ item }) => (
           <WatchListItem
             navigation={navigation}
-            id={item.id}
-            originalTitle={item.original_title}
-            overview={item.overview}
-            posterPath={item.poster_path}
-            voteAverage={item.vote_average}
-            releaseDate={item.release_date}
+            item={item}
+            // id={item.id}
+            // original_title={item.original_title}
+            // overview={item.overview}
+            // posterPath={item.poster_path}
+            // voteAverage={item.vote_average}
+            // releaseDate={item.release_date}
           />
         )}
         keyExtractor={(item, index) => (item?.id ? item.id.toString() : index.toString())}
