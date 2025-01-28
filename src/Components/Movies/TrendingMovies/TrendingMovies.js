@@ -170,4 +170,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TrendingMovies;
+export default React.memo(TrendingMovies);

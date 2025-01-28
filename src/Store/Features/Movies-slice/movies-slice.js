@@ -31,7 +31,7 @@ const moviesSlice = createSlice({
 
        },
        removeWatchlist(state, action){
-        const indexToRemove = state.movieWatchList.findIndex(obj => obj.id === action.payload.id)
+        const indexToRemove = state.movieWatchList.findIndex(obj => obj.id === action.payload)
         state.movieWatchList.splice(indexToRemove ,1 )
         // console.log(state.movieWatchList)
         //   console.log(action.payload)
@@ -47,7 +47,7 @@ const moviesSlice = createSlice({
         }
        },
        removeToFavList(state, action){
-        const indexToRemove = state.favoriteMovieList.findIndex(obj => obj.id === action.payload.id)
+        const indexToRemove = state.favoriteMovieList.findIndex(obj => obj.id === action.payload)
         state.favoriteMovieList.splice(indexToRemove ,1 )
         // console.log(state.favoriteMovieList)
         //   console.log(action.payload)

@@ -13,7 +13,7 @@ const Homescreen = ({navigation}) => {
   const [refreshingScreen, setIsRefreshing] = useState(false)
   const dispatch =useDispatch()
 
-  
+
 
   const onScrollControler=useCallback(()=>{
       setIsRefreshing(true)
@@ -51,12 +51,16 @@ const Homescreen = ({navigation}) => {
       </View>
       
       <View style={styles.titleContent}>
-           <View style={styles.sectionTitle}>
-             {movieWatchList.length > 0 && <Text style={styles.title}>WatchList</Text>}
              {/* this navigation operations are implement for the nested deeply navigate root pages to sub tabs navigate in the screens in react native */}
-              <TouchableOpacity style={[styles.title, {color:'black'}]} onPress={()=>navigation.navigate('WatchList',{screen : 'Watchlist'})}>
-                 <Text style={{fontWeight:'bold', fontSize:20, marginVertical:10}} >See all</Text>  
-              </TouchableOpacity>
+
+           <View style={styles.sectionTitle}>
+             {movieWatchList.length > 0 &&
+             <> 
+               <Text style={styles.title}>WatchList</Text>
+                <TouchableOpacity style={[styles.title, {color:'black'}]} onPress={()=>navigation.navigate('WatchList',{screen : 'Watchlist'})}>
+                  <Text style={{fontWeight:'bold', fontSize:20, marginVertical:10}} >See all</Text>  
+                </TouchableOpacity>
+              </>}
         </View>
         <View>
         <Homewatchlist/>
