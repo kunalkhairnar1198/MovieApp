@@ -20,9 +20,9 @@ const Homewatchlist = () => {
 
   const {width, height} = Dimensions.get('window');
 
-  const removeWatchlistItem =(id)=>{
+  const removeWatchlistItem =useCallback((id)=>{
             dispatch(moviesActions.removeWatchlist(id))
-    }
+    },[])
 
   const onFavoriteSaveHandler = useCallback(item => {
     dispatch(moviesActions.addMoviesToFavoriteList(item));
@@ -131,4 +131,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Homewatchlist;
+export default React.memo(Homewatchlist);

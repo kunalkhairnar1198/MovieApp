@@ -81,6 +81,7 @@ const Registerscreen = () => {
           <TextInput
             placeholder="Enter the Username"
             onChangeText={setUsername}
+            placeholderTextColor="#a9a9a9"
             style={styles.input}
           />
         </View>
@@ -89,6 +90,7 @@ const Registerscreen = () => {
           <TextInput
             inputMode="email"
             placeholder="Enter Email"
+            placeholderTextColor="#a9a9a9"
             keyboardType="email-address"
             onChangeText={setEmail}
             style={styles.input}
@@ -98,6 +100,7 @@ const Registerscreen = () => {
           <Text style={styles.label}>Password</Text>
           <TextInput
             placeholder="Enter Password"
+            placeholderTextColor="#a9a9a9"
             secureTextEntry={true}
             inputMode="password-new"
             onChangeText={setPassword}
@@ -108,6 +111,7 @@ const Registerscreen = () => {
           <Text style={styles.label}>Confirm Password</Text>
           <TextInput
             placeholder="Confirm password"
+            placeholderTextColor="#a9a9a9"
             secureTextEntry={true}
             returnKeyType={'next'}
             autoFocus={!errorMessage}
@@ -122,6 +126,7 @@ const Registerscreen = () => {
           <TextInput
             placeholder="Phone number"
             inputMode="number"
+            placeholderTextColor="#a9a9a9"
             keyboardType="number-pad"
             onChangeText={setPhoneNumber}
             style={styles.input}

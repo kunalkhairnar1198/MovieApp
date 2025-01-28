@@ -17,6 +17,7 @@ import Card from '../UI/Card';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Button from '../UI/Button';
+import { moviesActions } from '../../Store/Features/Movies-slice/movies-slice';
 
 const SearchBar = () => {
   const navigation = useNavigation();
@@ -56,6 +57,18 @@ const SearchBar = () => {
     };
   }, [navigation]);
 
+   const onFavoriteSaveHandler = item => {
+        dispatch(moviesActions.addMoviesToFavoriteList(item));
+        // dispatch(moviesActions.clearWathlistItem())
+      }
+    
+      const onWatchlistSaveHandler = 
+        item => {
+          // console.log('item', item)
+          dispatch(moviesActions.addMoviesToWatchList(item));
+        }
+  
+
   const renderSearchList = ({item}) => {
     const {title, overview, poster_path, vote_average, release_date} = item;
     return (
@@ -88,13 +101,13 @@ const SearchBar = () => {
             <View style={styles.buttonSection}>
               <Button
                 title="Favorite"
-                onPress={() => console.log('Favorite clicked')}>
+                onPress={() => onWatchlistSaveHandler(item)}>
                 <FontAwesome name="bookmark-o" size={30} color="white" />
               </Button>
               <Button
                 title="Heart"
-                onPress={() => console.log('Heart clicked')}>
-                <AntDesign name="hearto" size={30} color="red" />
+                onPress={() => onFavoriteSaveHandler(item)}>
+                <AntDesign name="hearto" size={30} color="white" />
               </Button>
             </View>
           </View>
@@ -110,6 +123,7 @@ const SearchBar = () => {
         <TextInput
           style={[styles.textInput, styles.shadowprop]}
           placeholder="Search Movies..."
+          placeholderTextColor="#a9a9a9"
           value={searchData}
           onChangeText={text => setSearchData(text)}
         />
@@ -141,7 +155,7 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     paddingVertical: 5,
     paddingHorizontal: 20,
-    backgroundColor: '#312222',
+    backgroundColor: '#9d3636',
   },
   inputContainer: {
     flexDirection: 'row',

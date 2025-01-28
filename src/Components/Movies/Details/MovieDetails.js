@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {
   Image,
   ImageBackground,
@@ -16,10 +16,11 @@ import Loader from '../../UI/Loader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Button from '../../UI/Button';
+import { moviesActions } from '../../../Store/Features/Movies-slice/movies-slice';
 
 const MovieDetails = ({route, navigation}) => {
   const {item} = route.params;
-  console.log('--->',item)
+  // console.log('--->',item)
   const dispatch = useDispatch();
   const {moviesDetailList, loading, error} = useSelector(state => state.movies);
 
@@ -42,6 +43,17 @@ const MovieDetails = ({route, navigation}) => {
   if (loading || !moviesDetailList) {
     return <Loader />;
   }
+
+   const onFavoriteSaveHandler = item => {
+      dispatch(moviesActions.addMoviesToFavoriteList(item));
+      // dispatch(moviesActions.clearWathlistItem())
+    }
+  
+    const onWatchlistSaveHandler = 
+      item => {
+        // console.log('item', item)
+        dispatch(moviesActions.addMoviesToWatchList(item));
+      }
 
   return (
     <View style={styles.container}>
@@ -86,11 +98,11 @@ const MovieDetails = ({route, navigation}) => {
                 </Text>
               </View>
               <View style={styles.buttonSection}>
-              <Button onPress={() => console.log('Favorite clicked')}>
-                <Fontisto name="favorite" size={35} color='red' />
+              <Button onPress={() => onWatchlistSaveHandler(item)}>
+                <Fontisto name="favorite" size={35} color='white' />
               </Button>
-              <Button onPress={() => console.log('Heart clicked')}>
-                <AntDesign name="heart" size={35} color="red" />
+              <Button onPress={() =>  onFavoriteSaveHandler(item)}>
+                <AntDesign name="heart" size={35} color="white" />
               </Button>
             </View>
             </View>

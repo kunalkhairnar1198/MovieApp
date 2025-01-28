@@ -13,6 +13,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import Button from '../../UI/Button';
 import { fetchMoviesDetails, image500 } from '../../../Store/Features/Actions/movies-actions';
 import Loader from '../../UI/Loader';
+import { moviesActions } from '../../../Store/Features/Movies-slice/movies-slice';
 
 const WatchDetail = ({route, navigation}) => {
   const {item} = route.params;
@@ -39,6 +40,17 @@ const WatchDetail = ({route, navigation}) => {
   if (loading || !moviesDetailList) {
     return <Loader />;
   }
+
+  const onFavoriteSaveHandler = item => {
+        dispatch(moviesActions.addMoviesToFavoriteList(item));
+        // dispatch(moviesActions.clearWathlistItem())
+      }
+    
+  const onWatchlistSaveHandler = 
+    item => {
+      // console.log('item', item)
+      dispatch(moviesActions.addMoviesToWatchList(item));
+    }
 
   return (
     <View style={styles.container}>
@@ -83,10 +95,10 @@ const WatchDetail = ({route, navigation}) => {
                 </Text>
               </View>
               <View style={styles.buttonSection}>
-              <Button onPress={() => console.log('Favorite clicked')}>
+              <Button onPress={() => onWatchlistSaveHandler(moviesDetailList)}>
                 <Fontisto name="favorite" size={35} color='red' />
               </Button>
-              <Button onPress={() => console.log('Heart clicked')}>
+              <Button onPress={() =>onFavoriteSaveHandler(moviesDetailList)}>
                 <AntDesign name="heart" size={35} color="red" />
               </Button>
             </View>

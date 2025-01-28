@@ -23,6 +23,7 @@ const CustomSearchBar = () => {
         <TextInput
           style={[styles.textInput, styles.shadowprop]}
           placeholder="Search Movies..."
+          placeholderTextColor="#a9a9a9"
           value={searchText}
           onChangeText={text => setSearchText(text)}
           editable={false}
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
       borderColor: '#ccc',
       borderRadius: 20,
       paddingHorizontal: 10,
+      fontSize:10,
       backgroundColor: '#f9f9f9',
     },
     searchIcon: {

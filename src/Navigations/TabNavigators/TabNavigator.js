@@ -1,5 +1,5 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Profilescreen from '../../Screens/Profilescreen';
 import Favoritescreen from '../../Screens/Favoritescreen';
 import {StyleSheet, Text} from 'react-native';
@@ -17,7 +17,6 @@ const TabNavigator = () => {
   console.log(logedInUser)
   return (
     <Tab.Navigator
-      initialRouteName="HomestackNav"
       screenOptions={{
         tabBarActiveTintColor: '#c24d4d',
         tabBarHideOnKeyboard:true,
@@ -27,7 +26,14 @@ const TabNavigator = () => {
         name="HomestackNav"
         component={HomeStackNav}
         options={{
-          headerShown:false,          
+          headerShown:false,
+          headerStyle:{
+              backgroundColor:'#c24d4d',
+              height:0
+          },
+          headerTintColor:{
+            color:'#c24d4d'
+          },
           tabBarIcon: ({focused}) => (
             <Icon name="home" size={30} color={focused ? 'red' : '#000'} />
           ),
