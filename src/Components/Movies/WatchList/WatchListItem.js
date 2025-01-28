@@ -6,15 +6,30 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {  fetchMoviesDetails, image500 } from '../../../Store/Features/Actions/movies-actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { moviesActions } from '../../../Store/Features/Movies-slice/movies-slice';
+import { useRoute } from '@react-navigation/native';
 
 const WatchListItem = ({ navigation, id, originalTitle, overview, posterPath, voteAverage, releaseDate }) => {
     const dispatch = useDispatch()
+    const route = useRoute()
+    console.log(route)
 
     const switchToNavigateDetail=( item)=>{  
         navigation.navigate('WatchDetails',{item})
         console.log(item.id)
        dispatch(fetchMoviesDetails(item.id))
     }
+
+        const removeWatchlistItem =(id)=>{
+          dispatch(moviesActions.removeWatchlist(id))
+// console.log(id)
+       }
+      const removeFavoriteList =(id)=>{
+        dispatch(moviesActions.removeToFavList(id))
+  // console.log(id)
+      }
+
+   
 
     return (
       <Button onPress={()=>switchToNavigateDetail({  id, originalTitle, overview, posterPath, voteAverage, releaseDate })}>
@@ -39,8 +54,8 @@ const WatchListItem = ({ navigation, id, originalTitle, overview, posterPath, vo
               </Text>
             </View>
             <View style={styles.buttonSection}>
-              <Button onPress={() => console.log('Favorite clicked')}>
-                <Fontisto name="favorite" size={25} color='white' />
+              <Button style={{backgroundColor:'yellow', padding:5, borderRadius:10, marginBottom:5}} onPress={route.name == 'Watchlist' ? () => removeWatchlistItem({id}) : ()=>removeFavoriteList({id})}>
+                <Text style={styles.text}> + Remove Watchlist</Text> 
               </Button>
               <Button onPress={() => console.log('Heart clicked')}>
                 <AntDesign name="heart" size={25} color="white" />
@@ -102,6 +117,10 @@ const styles = StyleSheet.create({
         justifyContent:'flex-end',
         gap: 10,
       },
+      text:{
+        fontWeight:'bold',
+        color:'red'
+      }
 })
 
 export default WatchListItem
