@@ -6,20 +6,25 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Zocial';
 import Feather from 'react-native-vector-icons/Feather';
 import { moviesActions } from '../../Store/Features/Movies-slice/movies-slice';
+import Button from '../UI/Button';
 
 const { width } = Dimensions.get('window'); 
 
 const ProfileDetails = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const { logedInUser } = useSelector((state) => state.auth);
-
-
+  const { logedInUser,registeredUsers } = useSelector((state) => state.auth);
+  
+console.log(logedInUser, registeredUsers)
   
   const logoutHandler = () => {
     dispatch(AuthActions.LogoutUser());
   };
 
+  const DeleteAccount =async(id)=>{
+   await dispatch(AuthActions.DeleteUser(id))
+   await dispatch(AuthActions.LoginUser())
+  }
   
 
   return (
@@ -38,6 +43,11 @@ const ProfileDetails = () => {
         <View style={styles.phoneSection}>
           <Feather name="smartphone" size={16} color={'#977474'} />
           <Text style={styles.phone}>{logedInUser?.phoneNumber || 'N/A'}</Text>
+        </View>
+        <View>
+          <Button onPress={()=>DeleteAccount(logedInUser.id)}>
+            <Text>Delete Account</Text>
+          </Button>
         </View>
       </View>
       <TouchableOpacity

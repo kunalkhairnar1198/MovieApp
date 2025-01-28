@@ -54,6 +54,10 @@ const authenticationDataState = {
         state.loading = false;
         state.logedInUser = null;
       },
+      DeleteUser(state, action){
+        const indexToRemove = state.registeredUsers.findIndex(obj => obj.id === action.payload.id)
+        state.registeredUsers.splice(indexToRemove ,1 )
+      }
     },
   });
 
