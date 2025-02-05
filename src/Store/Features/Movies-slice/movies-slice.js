@@ -102,7 +102,7 @@ const moviesSlice = createSlice({
         .addCase(fetchPopularMovies.fulfilled, (state,action)=>{
           state.loading = false;
           state.popularMovies = action.payload
-          console.log('fetching succesfully popular movies data', state.popularMovies)
+          // console.log('fetching succesfully popular movies data', state.popularMovies)
         })
         .addCase(fetchPopularMovies.rejected,(state,action)=>{
           state.loading = false;

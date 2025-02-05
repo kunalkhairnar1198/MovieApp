@@ -14,7 +14,7 @@ const TabNavigator = () => {
   const {logedInUser} = useSelector(state => state.auth)
   const { watchRead, FavRead } = useSelector(state => state.movies)
 
-  console.log(logedInUser)
+  // console.log(logedInUser)
   return (
     <Tab.Navigator
       screenOptions={{

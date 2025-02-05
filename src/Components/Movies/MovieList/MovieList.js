@@ -46,7 +46,7 @@ const MovieList = ({navigation}) => {
 
   const switchToDetailPageHandler = item => {
     navigation.navigate('Moviedetails', {item});
-    console.log(item.id);
+    // console.log(item.id);
     dispatch(fetchMoviesDetails(item.id));
   };
 

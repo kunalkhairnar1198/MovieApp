@@ -16,7 +16,7 @@ import { moviesActions } from '../../Store/Features/Movies-slice/movies-slice';
 const Homewatchlist = () => {
     const dispatch = useDispatch()
   const {movieWatchList} = useSelector(state => state.movies);
-  console.log('---', movieWatchList);
+  // console.log('---', movieWatchList);
 
   const {width, height} = Dimensions.get('window');
 
