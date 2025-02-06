@@ -50,7 +50,7 @@ export const fetchTrendingMovies = createAsyncThunk('movies/fetchTrendingMovies'
 export const fetchPopularMovies = createAsyncThunk('movies/fetchPopularMovies',
     async()=>{
         const response = await axios.get(popularMoviesEndpoint);
-        // console.log('popular movies fetch', response.data)
+        console.log('popular movies fetch', response.data)
         return response.data.results;
     }
 )
