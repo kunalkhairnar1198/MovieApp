@@ -28,7 +28,7 @@ const SearchBar = () => {
   const [debounceQuery, cancelDebounce] = useDebounce(searchData, 500);
   // console.log('first')
 
-  const FetchResult = useCallback(async searchData => {
+  const fetchResult = useCallback(async searchData => {
     if (searchData) {
       // dispatch(searchMovies(searchData))
       const Response = await axios(
@@ -40,7 +40,7 @@ const SearchBar = () => {
   }, []);
 
   useEffect(() => {
-    FetchResult(debounceQuery);
+    fetchResult(debounceQuery);
     setIsResult([]);
     return () => {
       cancelDebounce();

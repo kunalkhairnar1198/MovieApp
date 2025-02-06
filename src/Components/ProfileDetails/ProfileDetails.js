@@ -18,12 +18,12 @@ const ProfileDetails = () => {
 console.log(logedInUser, registeredUsers)
   
   const logoutHandler = () => {
-    dispatch(AuthActions.LogoutUser());
+    dispatch(AuthActions.logOutUser());
   };
 
-  const DeleteAccount =async(id)=>{
-   await dispatch(AuthActions.DeleteUser(id))
-   await dispatch(AuthActions.LoginUser())
+  const deleteAccount =async(id)=>{
+   await dispatch(AuthActions.deleteUser(id))
+   await dispatch(AuthActions.loginUser())
   }
   
 
@@ -45,7 +45,7 @@ console.log(logedInUser, registeredUsers)
           <Text style={styles.phone}>{logedInUser?.phoneNumber || 'N/A'}</Text>
         </View>
         <View>
-          <Button onPress={()=>DeleteAccount(logedInUser.id)}>
+          <Button onPress={()=>deleteAccount(logedInUser.id)}>
             <Text>Delete Account</Text>
           </Button>
         </View>

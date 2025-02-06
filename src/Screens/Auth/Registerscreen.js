@@ -30,7 +30,7 @@ const Registerscreen = () => {
     navigation.navigate('Login'); 
   };
 
-  const RegisterHandler = () => {
+  const registerHandler = () => {
     const userRegisterData = {
       id: Math.random().toString(),
       username,
@@ -52,7 +52,7 @@ const Registerscreen = () => {
     } else if (password !== confirmPassword) {
       dispatch(UiActions.isErrorMessage('do not match password'));
     } else {  
-      dispatch(AuthActions.RegisterUser(userRegisterData))
+      dispatch(AuthActions.registerUser(userRegisterData))
       console.log(userRegisterData) 
       dispatch(UiActions.isErrorMessage(''));
       navigation.push('Login');
@@ -135,7 +135,7 @@ const Registerscreen = () => {
         <TouchableOpacity onPress={swithchHandleTosignIn}>
           <Text style={styles.linkText}>If have an account? Sign In</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={RegisterHandler}>
+        <TouchableOpacity style={styles.button} onPress={registerHandler}>
           <Text style={styles.buttonText}>Singup</Text>
         </TouchableOpacity>
       </ImageBackground>

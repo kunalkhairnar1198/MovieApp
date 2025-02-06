@@ -30,13 +30,13 @@ const Loginscreen = () => {
     navigation.navigate("Signup");
   };
 
-  const SingInHandler = () => {
+  const signInHandler = () => {
     const loginUser = {
       email,
       password,
     };
 
-    dispatch(AuthActions.Loaduser(true)); 
+    dispatch(AuthActions.loadUser(true)); 
 
     const foundUser = registeredUsers.find(
       (user) =>
@@ -45,11 +45,11 @@ const Loginscreen = () => {
     );
 
     if (foundUser) {
-      dispatch(AuthActions.LoginUser(loginUser));
+      dispatch(AuthActions.loginUser(loginUser));
       // dispatch(UiActions.isErrorMessage("Login Successful"));
     } else {
       dispatch(UiActions.isErrorMessage("Invalid credentials"));
-      dispatch(AuthActions.Loaduser(false)); 
+      dispatch(AuthActions.loadUser(false)); 
     }
   };
 
@@ -94,7 +94,7 @@ const Loginscreen = () => {
           <TouchableOpacity onPress={switchSingupHanlder}>
             <Text style={styles.linkText}>Don't have an account? Sign Up</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={SingInHandler}>
+          <TouchableOpacity style={styles.button} onPress={signInHandler}>
             <Text style={styles.buttonText}>
               {loading ? "Loading..." : "Login"}
             </Text>

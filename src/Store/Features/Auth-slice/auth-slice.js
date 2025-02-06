@@ -11,7 +11,7 @@ const authenticationDataState = {
     name: "auth",
     initialState: authenticationDataState,
     reducers: {
-      RegisterUser(state, action) {
+      registerUser(state, action) {
         const newUser = action.payload;
         const existingUser = state.registeredUsers.find(
           (user) => user.email.toLowerCase() === newUser.email.toLowerCase()
@@ -24,7 +24,7 @@ const authenticationDataState = {
           console.log("User with this email already exists");
         }
       },
-      LoginUser(state, action) {
+      loginUser(state, action) {
         const { email, password } = action.payload;
   
         const foundUser = state.registeredUsers.find(
@@ -45,15 +45,15 @@ const authenticationDataState = {
           console.log("Invalid credentials");
         }
       },
-      Loaduser(state, action) {
+      loadUser(state, action) {
         state.loading = action.payload;
       },
-      LogoutUser(state) {
+      logOutUser(state) {
         state.token = false;
         state.loading = false;
         state.logedInUser = null;
       },
-      DeleteUser(state, action){
+      deleteUser(state, action){
         const indexToRemove = state.registeredUsers.findIndex(obj => obj.id === action.payload.id)
         state.registeredUsers.splice(indexToRemove ,1 )
       }
